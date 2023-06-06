@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Ghi chú</string>
+    <string name="my_notes">Ghi chú của tôi</string>
+    <string name="search_notes">Tìm kiếm</string>
+    <string name="description_search_icon">Biểu tượng tìm kiếm</string>
+    <string name="description_add_image_icon">Biểu tượng thêm ảnh</string>
+    <string name="description_add_website_link_icon">Biểu tượng thêm đường dẫn website</string>
+    <string name="description_add_a_note_icon">Biểu tượng thêm một ghi chú</string>
 </resources>

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Notes</string>
+    <string name="my_notes">My Notes</string>
+    <string name="search_notes">Search notes</string>
+    <string name="description_search_icon">Search icon</string>
+    <string name="description_add_image_icon">Add image icon</string>
+    <string name="description_add_website_link_icon">Add website link icon</string>
+    <string name="description_add_a_note_icon">Add a note icon</string>
 </resources>
