@@ -7,4 +7,9 @@
     <string name="description_add_image_icon">Biểu tượng thêm ảnh</string>
     <string name="description_add_website_link_icon">Biểu tượng thêm đường dẫn website</string>
     <string name="description_add_a_note_icon">Biểu tượng thêm một ghi chú</string>
+    <string name="description_back_icon">Biểu tượng quay trở lại</string>
+    <string name="description_done_icon">Biểu tượng lưu</string>
+    <string name="note_title">Tiêu đề</string>
+    <string name="note_subtitle">Phụ đề</string>
+    <string name="type_note_here">Nhập ghi chú ở đây..</string>
 </resources>

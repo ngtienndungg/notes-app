@@ -6,4 +6,9 @@
     <string name="description_add_image_icon">Add image icon</string>
     <string name="description_add_website_link_icon">Add website link icon</string>
     <string name="description_add_a_note_icon">Add a note icon</string>
+    <string name="description_back_icon">Back icon</string>
+    <string name="description_done_icon">Done icon</string>
+    <string name="note_title">Note title</string>
+    <string name="note_subtitle">Note Subtitle</string>
+    <string name="type_note_here">Type note here..</string>
 </resources>

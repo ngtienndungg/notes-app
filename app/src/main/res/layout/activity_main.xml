@@ -50,9 +50,9 @@
             android:imeOptions="actionDone"
             android:importantForAutofill="no"
             android:includeFontPadding="false"
+            android:inputType="text"
             android:textColor="@color/colorWhite"
             android:textColorHint="@color/colorTextHint"
-            android:inputType="text"
             android:textSize="@dimen/_13ssp" />
 
     </LinearLayout>
@@ -68,7 +68,7 @@
         android:paddingBottom="@dimen/_12sdp"
         app:layout_constraintBottom_toTopOf="@id/activity_main_llQuickActions"
         app:layout_constraintTop_toBottomOf="@id/activity_main_llSearch" />
-    
+
     <LinearLayout
         android:id="@+id/activity_main_llQuickActions"
         android:layout_width="match_parent"
@@ -109,18 +109,18 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/activity_main_ivAddNoteMain"
         android:layout_width="@dimen/_40sdp"
         android:layout_height="@dimen/_40sdp"
-        android:id="@+id/activity_main_ivAddNoteMain"
         android:layout_marginEnd="@dimen/_30sdp"
-        android:contentDescription="@string/description_add_a_note_icon"
         android:background="@drawable/background_add_button"
+        android:contentDescription="@string/description_add_a_note_icon"
         android:padding="@dimen/_5sdp"
         android:src="@drawable/ic_add"
-        app:tint="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@id/activity_main_llQuickActions"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/activity_main_llQuickActions" />
+        app:layout_constraintTop_toTopOf="@id/activity_main_llQuickActions"
+        app:tint="@color/colorPrimary" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
