@@ -11,4 +11,6 @@
     <string name="note_title">Note title</string>
     <string name="note_subtitle">Note Subtitle</string>
     <string name="type_note_here">Type note here..</string>
+    <string name="toast_title_empty">Note title can\'t be empty</string>
+    <string name="toast_note_empty">Note can\'t be empty</string>
 </resources>

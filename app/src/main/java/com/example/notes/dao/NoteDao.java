@@ -1,5 +1,6 @@
 package com.example.notes.dao;
 
+import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -9,6 +10,7 @@ import com.example.notes.entities.Note;
 
 import java.util.List;
 
+@Dao
 public interface NoteDao {
 
     @Query("SELECT * FROM notes ORDER BY id DESC")

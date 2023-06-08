@@ -47,7 +47,7 @@
                 app:tint="@color/colorIcon" />
 
             <EditText
-                android:id="@+id/activity_create_note_etInputNoteTitle"
+                android:id="@+id/activity_create_note_etInputTitle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_35sdp"
                 android:layout_marginHorizontal="@dimen/_12sdp"
@@ -74,9 +74,9 @@
                 android:includeFontPadding="false"
                 android:textColor="@color/colorIcon"
                 android:textSize="@dimen/_10sdp"
-                app:layout_constraintEnd_toEndOf="@id/activity_create_note_etInputNoteTitle"
-                app:layout_constraintStart_toStartOf="@id/activity_create_note_etInputNoteTitle"
-                app:layout_constraintTop_toBottomOf="@id/activity_create_note_etInputNoteTitle" />
+                app:layout_constraintEnd_toEndOf="@id/activity_create_note_etInputTitle"
+                app:layout_constraintStart_toStartOf="@id/activity_create_note_etInputTitle"
+                app:layout_constraintTop_toBottomOf="@id/activity_create_note_etInputTitle" />
 
             <EditText
                 android:id="@+id/activity_create_note_etInputSubtitle"

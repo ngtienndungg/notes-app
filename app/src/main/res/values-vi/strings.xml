@@ -12,4 +12,6 @@
     <string name="note_title">Tiêu đề</string>
     <string name="note_subtitle">Phụ đề</string>
     <string name="type_note_here">Nhập ghi chú ở đây..</string>
+    <string name="toast_title_empty">Tiêu đề không thể trống</string>
+    <string name="toast_note_empty">Ghi chú không thể trống</string>
 </resources>
