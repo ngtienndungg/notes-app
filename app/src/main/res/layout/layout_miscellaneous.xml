@@ -10,7 +10,7 @@
     app:layout_behavior="@string/bottom_sheet_behavior">
 
     <TextView
-        android:id="@+id/tvMiscellaneous"
+        android:id="@+id/layout_miscellaneous_tvMiscellaneous"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
         android:fontFamily="@font/ubuntu_medium"
