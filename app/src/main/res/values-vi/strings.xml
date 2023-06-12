@@ -16,4 +16,6 @@
     <string name="toast_note_empty">Ghi chú không thể trống</string>
     <string name="miscellaneous">Tuỳ chọn khác</string>
     <string name="pick_color">Chọn màu</string>
+    <string name="description_image_of_note">Ảnh của ghi chú</string>
+    <string name="add_image">Thêm ảnh</string>
 </resources>
