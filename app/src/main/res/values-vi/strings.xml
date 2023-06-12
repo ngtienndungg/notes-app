@@ -18,4 +18,6 @@
     <string name="pick_color">Chọn màu</string>
     <string name="description_image_of_note">Ảnh của ghi chú</string>
     <string name="add_image">Thêm ảnh</string>
+    <string name="toast_permission_denied">Quyền truy cập bị từ chối</string>
+    <string name="toast_something_wrong">Đã có lỗi xảy ra</string>
 </resources>

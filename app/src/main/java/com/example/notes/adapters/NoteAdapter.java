@@ -1,18 +1,22 @@
 package com.example.notes.adapters;
 
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notes.R;
 import com.example.notes.entities.Note;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
 
@@ -52,6 +56,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
         private TextView tvTitle, tvSubtitle, tvDateTime;
         private LinearLayout llNote;
+        private RoundedImageView rivNoteImage;
 
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,6 +68,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             tvSubtitle = itemView.findViewById(R.id.item_container_note_tvSubtitle);
             tvDateTime = itemView.findViewById(R.id.item_container_note_tvDateTime);
             llNote = itemView.findViewById(R.id.item_container_note_llNote);
+            rivNoteImage = itemView.findViewById(R.id.item_container_note_rivNoteImage);
         }
 
         void setNote(Note note) {
@@ -79,6 +85,15 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                 gradientDrawable.setColor(Color.parseColor(note.getColor()));
             } else {
                 gradientDrawable.setColor(Color.parseColor("#333333"));
+            }
+
+            if (note.getImagePath() != null) {
+                rivNoteImage.setVisibility(View.VISIBLE);
+                rivNoteImage.setImageBitmap(BitmapFactory.decodeFile(note.getImagePath()));
+                Log.d("CheckNote", note.getImagePath());
+            } else {
+                rivNoteImage.setVisibility(View.GONE);
+                Toast.makeText(itemView.getContext(), "Hello", Toast.LENGTH_SHORT).show();
             }
         }
     }

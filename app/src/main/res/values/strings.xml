@@ -17,4 +17,6 @@
     <string name="pick_color">Pick color</string>
     <string name="description_image_of_note">Image of note</string>
     <string name="add_image">Add image</string>
+    <string name="toast_permission_denied">Permission denied</string>
+    <string name="toast_something_wrong">Something wrong happened</string>
 </resources>

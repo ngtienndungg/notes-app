@@ -63,8 +63,7 @@
                 android:textColorHint="@color/colorTextHint"
                 android:textSize="@dimen/_16sdp"
                 app:layout_constraintTop_toBottomOf="@id/activity_create_note_ivBack"
-                tools:ignore="TouchTargetSizeCheck"
-                tools:layout_editor_absoluteX="16dp" />
+                tools:ignore="TouchTargetSizeCheck" />
 
             <TextView
                 android:id="@+id/activity_create_note_tvDateTime"
@@ -109,6 +108,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/activity_create_note_etInputSubtitle" />
 
+            <ImageView
+                android:id="@+id/activity_create_note_ivNoteImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/description_image_of_note"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/activity_create_note_etInputSubtitle" />
+
             <EditText
                 android:id="@+id/activity_create_note_etInputNote"
                 android:layout_width="match_parent"
@@ -127,7 +137,7 @@
                 android:textColorHint="@color/colorTextHint"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/activity_create_note_etInputSubtitle"
+                app:layout_constraintTop_toBottomOf="@id/activity_create_note_ivNoteImage"
                 tools:ignore="TextContrastCheck"
                 tools:layout_editor_absoluteX="16dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
