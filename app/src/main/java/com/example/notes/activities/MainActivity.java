@@ -15,13 +15,15 @@ import com.example.notes.R;
 import com.example.notes.adapters.NoteAdapter;
 import com.example.notes.database.NoteDatabase;
 import com.example.notes.entities.Note;
+import com.example.notes.listeners.NoteListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NoteListener {
 
     public static final int REQUEST_CODE_ADD_NOTE = 1;
+    public static final int REQUEST_CODE_UPDATE_NOTE = 2;
 
     private ImageView ivAddNoteMain;
     private RecyclerView rvNotes;
@@ -45,6 +47,14 @@ public class MainActivity extends AppCompatActivity {
 
         // Handle click event
         getNotes();
+    }
+
+    @Override
+    public void onNoteClicked(Note note, int position) {
+        Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
+        intent.putExtra("isReviewOrUpdate", true);
+        intent.putExtra("note", note);
+        startActivityForResult(intent, REQUEST_CODE_UPDATE_NOTE);
     }
 
     private void viewMapping() {
@@ -92,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupRecyclerView() {
         rvNotes.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         noteList = new ArrayList<>();
-        noteAdapter = new NoteAdapter(noteList);
+        noteAdapter = new NoteAdapter(noteList, this);
         rvNotes.setAdapter(noteAdapter);
     }
 
@@ -103,4 +113,5 @@ public class MainActivity extends AppCompatActivity {
             getNotes();
         }
     }
+
 }

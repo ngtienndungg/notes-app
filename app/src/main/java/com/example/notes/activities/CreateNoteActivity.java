@@ -60,6 +60,8 @@ public class CreateNoteActivity extends AppCompatActivity {
 
     private AlertDialog dialogAddUrl;
 
+    private Note alreadyExistNote;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +101,10 @@ public class CreateNoteActivity extends AppCompatActivity {
         tvDateTime.setText(new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date()));
         selectedColor = "#333333";
         selectedImagePath = "";
+        if (getIntent().getBooleanExtra("isReviewOrUpdate", false)) {
+            alreadyExistNote = (Note) getIntent().getSerializableExtra("note");
+            setReviewOrUpdateNote();
+        }
         setSubtitleIndicatorColor();
     }
 
@@ -124,6 +130,10 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         if (tvWebUrl.getVisibility() == View.VISIBLE) {
             note.setWebLink(tvWebUrl.getText().toString());
+        }
+
+        if (alreadyExistNote != null) {
+            note.setId(alreadyExistNote.getId());
         }
 
         @SuppressLint("StaticFieldLeak")
@@ -235,6 +245,23 @@ public class CreateNoteActivity extends AppCompatActivity {
                 showAddUrlDialog();
             }
         });
+
+        if (alreadyExistNote != null && alreadyExistNote.getColor() != null && !alreadyExistNote.getColor().trim().toString().isEmpty()) {
+            switch (alreadyExistNote.getColor()) {
+                case "#FDBE3B":
+                    llMiscellaneous.findViewById(R.id.layout_miscellaneous_ivColor2).performClick();
+                    break;
+                case "#FF4842":
+                    llMiscellaneous.findViewById(R.id.layout_miscellaneous_ivColor3).performClick();
+                    break;
+                case "#3A52FC":
+                    llMiscellaneous.findViewById(R.id.layout_miscellaneous_ivColor4).performClick();
+                    break;
+                case "#000000":
+                    llMiscellaneous.findViewById(R.id.layout_miscellaneous_ivColor5).performClick();
+                    break;
+            }
+        }
     }
 
     private void setSubtitleIndicatorColor() {
@@ -249,6 +276,24 @@ public class CreateNoteActivity extends AppCompatActivity {
             startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE);
         } catch (Exception e) {
             Toast.makeText(this, getResources().getString(R.string.toast_something_wrong), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setReviewOrUpdateNote() {
+        etInputTitle.setText(alreadyExistNote.getTitle());
+        etInputSubtitle.setText(alreadyExistNote.getSubtitle());
+        etInputNote.setText(alreadyExistNote.getNoteContent());
+        tvDateTime.setText(alreadyExistNote.getDateTime());
+
+        if (alreadyExistNote.getImagePath() != null && !alreadyExistNote.getImagePath().trim().isEmpty()) {
+            ivNoteImage.setImageBitmap(BitmapFactory.decodeFile(alreadyExistNote.getImagePath()));
+            ivNoteImage.setVisibility(View.VISIBLE);
+            selectedImagePath = alreadyExistNote.getImagePath();
+        }
+
+        if (alreadyExistNote.getWebLink() != null && !alreadyExistNote.getWebLink().trim().isEmpty()) {
+            tvWebUrl.setText(alreadyExistNote.getWebLink());
+            tvWebUrl.setVisibility(View.VISIBLE);
         }
     }
 
