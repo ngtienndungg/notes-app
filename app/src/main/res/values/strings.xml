@@ -24,4 +24,6 @@
     <string name="enter_url">Enter URL</string>
     <string name="add">Add</string>
     <string name="cancel">Cancel</string>
+    <string name="toast_empty_url">URL can\'t be empty</string>
+    <string name="toast_invalid_url">URL is invalid</string>
 </resources>

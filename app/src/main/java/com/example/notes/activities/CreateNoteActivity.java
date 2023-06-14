@@ -8,12 +8,16 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,6 +26,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -45,12 +50,15 @@ public class CreateNoteActivity extends AppCompatActivity {
     private LinearLayout llMiscellaneous;
     private View vSubtitleIndicator;
     private ImageView ivNoteImage;
+    private TextView tvWebUrl;
 
     private String selectedColor;
     private String selectedImagePath;
 
     private static final int REQUEST_CODE_STORAGE_PERMISSION = 1;
     private static final int REQUEST_CODE_SELECT_IMAGE = 2;
+
+    private AlertDialog dialogAddUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +86,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         llMiscellaneous = findViewById(R.id.llMiscellaneous);
         vSubtitleIndicator = findViewById(R.id.activity_create_note_vSubtitleIndicator);
         ivNoteImage = findViewById(R.id.activity_create_note_ivNoteImage);
+        tvWebUrl = findViewById(R.id.activity_create_note_tvWebUrl);
     }
 
     private void eventHandling() {
@@ -108,7 +117,14 @@ public class CreateNoteActivity extends AppCompatActivity {
         note.setNoteContent(etInputNote.getText().toString());
         note.setDateTime(tvDateTime.getText().toString());
         note.setColor(selectedColor);
-        note.setImagePath(selectedImagePath);
+
+        if (!selectedImagePath.equals("")) {
+            note.setImagePath(selectedImagePath);
+        }
+
+        if (tvWebUrl.getVisibility() == View.VISIBLE) {
+            note.setWebLink(tvWebUrl.getText().toString());
+        }
 
         @SuppressLint("StaticFieldLeak")
         class SaveNoteTask extends AsyncTask<Void, Void, Void> {
@@ -211,6 +227,14 @@ public class CreateNoteActivity extends AppCompatActivity {
                 selectImage();
             }
         });
+
+        llMiscellaneous.findViewById(R.id.layout_miscellaneous_llAddUrl).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                showAddUrlDialog();
+            }
+        });
     }
 
     private void setSubtitleIndicatorColor() {
@@ -269,5 +293,44 @@ public class CreateNoteActivity extends AppCompatActivity {
             cursor.close();
         }
         return filePath;
+    }
+
+    private void showAddUrlDialog() {
+        if (dialogAddUrl == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(CreateNoteActivity.this);
+            View view = LayoutInflater.from(this).inflate(R.layout.layout_add_url, (ViewGroup) findViewById(R.id.layout_add_url));
+            builder.setView(view);
+
+            dialogAddUrl = builder.create();
+            if (dialogAddUrl.getWindow() != null) {
+                dialogAddUrl.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+
+                final EditText etInputUrl = view.findViewById(R.id.layout_add_url_etInputUrl);
+                etInputUrl.requestFocus();
+
+                view.findViewById(R.id.layout_add_url_tvAdd).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (etInputUrl.getText().toString().trim().isEmpty()) {
+                            Toast.makeText(CreateNoteActivity.this, getResources().getString(R.string.toast_empty_url), Toast.LENGTH_SHORT).show();
+                        } else if (!Patterns.WEB_URL.matcher(etInputUrl.getText().toString().trim()).matches()) {
+                            Toast.makeText(CreateNoteActivity.this,  getResources().getString(R.string.toast_invalid_url), Toast.LENGTH_SHORT).show();
+                        } else {
+                            tvWebUrl.setText(etInputUrl.getText().toString().trim());
+                            tvWebUrl.setVisibility(View.VISIBLE);
+                            dialogAddUrl.dismiss();
+                        }
+                    }
+                });
+
+                view.findViewById(R.id.layout_add_url_tvCancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogAddUrl.dismiss();
+                    }
+                });
+            }
+            dialogAddUrl.show();
+        }
     }
 }

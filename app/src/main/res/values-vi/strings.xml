@@ -25,4 +25,6 @@
     <string name="enter_url">Nhập đường dẫn</string>
     <string name="add">Thêm</string>
     <string name="cancel">Huỷ bỏ</string>
+    <string name="toast_empty_url">Đường dẫn không thể trống</string>
+    <string name="toast_invalid_url">Đường dẫn không hợp lệ</string>
 </resources>
