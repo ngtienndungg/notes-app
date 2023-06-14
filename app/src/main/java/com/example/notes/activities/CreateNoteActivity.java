@@ -133,6 +133,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         new SaveNoteTask().execute();
     }
 
+    @SuppressLint("InlinedApi")
     private void handleMiscellaneous() {
         final BottomSheetBehavior<LinearLayout> bottomSheetBehavior = BottomSheetBehavior.from(llMiscellaneous);
         llMiscellaneous.findViewById(R.id.layout_miscellaneous_tvMiscellaneous).setOnClickListener(v -> {
@@ -201,10 +202,10 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         llMiscellaneous.findViewById(R.id.layout_miscellaneous_llAddImage).setOnClickListener(v -> {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_MEDIA_IMAGES)
                     != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(CreateNoteActivity.this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        new String[]{Manifest.permission.READ_MEDIA_IMAGES},
                         REQUEST_CODE_STORAGE_PERMISSION);
             } else {
                 selectImage();
