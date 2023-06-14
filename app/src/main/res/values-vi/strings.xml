@@ -21,4 +21,8 @@
     <string name="toast_permission_denied">Quyền truy cập bị từ chối</string>
     <string name="toast_something_wrong">Đã có lỗi xảy ra</string>
     <string name="add_url">Thêm đường dẫn</string>
+    <string name="description_add_url_icon">Biểu tượng thêm đường dẫn</string>
+    <string name="enter_url">Nhập đường dẫn</string>
+    <string name="add">Thêm</string>
+    <string name="cancel">Huỷ bỏ</string>
 </resources>

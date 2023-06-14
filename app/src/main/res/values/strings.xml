@@ -20,4 +20,8 @@
     <string name="toast_permission_denied">Permission denied</string>
     <string name="toast_something_wrong">Something wrong happened</string>
     <string name="add_url">Add URL</string>
+    <string name="description_add_url_icon">Add url icon</string>
+    <string name="enter_url">Enter URL</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
 </resources>
