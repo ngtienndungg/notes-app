@@ -238,12 +238,9 @@ public class CreateNoteActivity extends AppCompatActivity {
             }
         });
 
-        llMiscellaneous.findViewById(R.id.layout_miscellaneous_llAddUrl).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                showAddUrlDialog();
-            }
+        llMiscellaneous.findViewById(R.id.layout_miscellaneous_llAddUrl).setOnClickListener(v -> {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            showAddUrlDialog();
         });
 
         if (alreadyExistNote != null && alreadyExistNote.getColor() != null && !alreadyExistNote.getColor().trim().toString().isEmpty()) {
