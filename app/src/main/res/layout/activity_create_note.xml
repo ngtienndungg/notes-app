@@ -119,19 +119,52 @@
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/activity_create_note_etInputSubtitle" />
 
-            <TextView
-                android:id="@+id/activity_create_note_tvWebUrl"
+            <ImageView
+                android:id="@+id/activity_create_note_ivRemoveImage"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/background_delete"
+                android:contentDescription="@string/description_delete_icon"
+                android:padding="@dimen/_4sdp"
+                android:src="@drawable/ic_delete"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/activity_create_note_ivNoteImage"
+                app:layout_constraintTop_toTopOf="@id/activity_create_note_ivNoteImage"
+                app:tint="@color/colorWhite" />
+
+            <LinearLayout
+                android:id="@+id/activity_create_note_llNoteWebUrl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_12sdp"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:autoLink="web"
-                android:fontFamily="@font/ubuntu_regular"
                 android:gravity="center_vertical"
-                android:includeFontPadding="false"
-                android:textSize="@dimen/_13ssp"
+                android:orientation="horizontal"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/activity_create_note_ivNoteImage" />
+                app:layout_constraintTop_toBottomOf="@id/activity_create_note_ivNoteImage"
+                tools:ignore="UseCompoundDrawables">
+
+                <TextView
+                    android:id="@+id/activity_create_note_tvWebUrl"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:autoLink="web"
+                    android:fontFamily="@font/ubuntu_regular"
+                    android:includeFontPadding="false"
+                    android:textSize="@dimen/_13ssp" />
+
+                <ImageView
+                    android:id="@+id/activity_create_note_ivRemoveUrl"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:contentDescription="@string/description_delete_icon"
+                    android:src="@drawable/ic_delete"
+                    app:tint="@color/colorDelete" />
+
+            </LinearLayout>
 
 
             <EditText
@@ -152,7 +185,7 @@
                 android:textColorHint="@color/colorTextHint"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/activity_create_note_tvWebUrl"
+                app:layout_constraintTop_toBottomOf="@id/activity_create_note_llNoteWebUrl"
                 tools:ignore="TextContrastCheck" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
