@@ -135,7 +135,7 @@
                 app:tint="@color/colorWhite" />
 
             <LinearLayout
-                android:id="@+id/activity_create_note_llNoteWebUrl"
+                android:id="@+id/activity_create_note_llNoteUrl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_12sdp"
@@ -185,7 +185,7 @@
                 android:textColorHint="@color/colorTextHint"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/activity_create_note_llNoteWebUrl"
+                app:layout_constraintTop_toBottomOf="@id/activity_create_note_llNoteUrl"
                 tools:ignore="TextContrastCheck" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -50,7 +50,10 @@ public class CreateNoteActivity extends AppCompatActivity {
     private LinearLayout llMiscellaneous;
     private View vSubtitleIndicator;
     private ImageView ivNoteImage;
+    private LinearLayout llNoteUrl;
     private TextView tvWebUrl;
+    private ImageView ivRemoveImage;
+    private ImageView ivRemoveUrl;
 
     private String selectedColor;
     private String selectedImagePath;
@@ -89,11 +92,16 @@ public class CreateNoteActivity extends AppCompatActivity {
         vSubtitleIndicator = findViewById(R.id.activity_create_note_vSubtitleIndicator);
         ivNoteImage = findViewById(R.id.activity_create_note_ivNoteImage);
         tvWebUrl = findViewById(R.id.activity_create_note_tvWebUrl);
+        llNoteUrl = findViewById(R.id.activity_create_note_llNoteUrl);
+        ivRemoveImage = findViewById(R.id.activity_create_note_ivRemoveImage);
+        ivRemoveUrl = findViewById(R.id.activity_create_note_ivRemoveUrl);
     }
 
     private void eventHandling() {
         ivBack.setOnClickListener(v -> onBackPressed());
         ivSave.setOnClickListener(v -> saveNote());
+        ivRemoveImage.setOnClickListener(v -> removeImage());
+        ivRemoveUrl.setOnClickListener(v -> removeUrl());
         handleMiscellaneous();
     }
 
@@ -285,12 +293,14 @@ public class CreateNoteActivity extends AppCompatActivity {
         if (alreadyExistNote.getImagePath() != null && !alreadyExistNote.getImagePath().trim().isEmpty()) {
             ivNoteImage.setImageBitmap(BitmapFactory.decodeFile(alreadyExistNote.getImagePath()));
             ivNoteImage.setVisibility(View.VISIBLE);
+            ivRemoveImage.setVisibility(View.VISIBLE);
             selectedImagePath = alreadyExistNote.getImagePath();
         }
 
         if (alreadyExistNote.getWebLink() != null && !alreadyExistNote.getWebLink().trim().isEmpty()) {
             tvWebUrl.setText(alreadyExistNote.getWebLink());
             tvWebUrl.setVisibility(View.VISIBLE);
+            llNoteUrl.setVisibility(View.VISIBLE);
         }
     }
 
@@ -315,6 +325,7 @@ public class CreateNoteActivity extends AppCompatActivity {
                         ivNoteImage.setImageBitmap(bitmap);
                         ivNoteImage.setVisibility(View.VISIBLE);
                         selectedImagePath = getPathFromUri(selectedImageUri);
+                        ivRemoveImage.setVisibility(View.VISIBLE);
                     } catch (Exception e) {
                         Toast.makeText(this, getResources().getString(R.string.toast_something_wrong), Toast.LENGTH_SHORT).show();
                     }
@@ -356,11 +367,13 @@ public class CreateNoteActivity extends AppCompatActivity {
                         if (etInputUrl.getText().toString().trim().isEmpty()) {
                             Toast.makeText(CreateNoteActivity.this, getResources().getString(R.string.toast_empty_url), Toast.LENGTH_SHORT).show();
                         } else if (!Patterns.WEB_URL.matcher(etInputUrl.getText().toString().trim()).matches()) {
-                            Toast.makeText(CreateNoteActivity.this,  getResources().getString(R.string.toast_invalid_url), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CreateNoteActivity.this, getResources().getString(R.string.toast_invalid_url), Toast.LENGTH_SHORT).show();
                         } else {
                             tvWebUrl.setText(etInputUrl.getText().toString().trim());
                             tvWebUrl.setVisibility(View.VISIBLE);
+                            llNoteUrl.setVisibility(View.VISIBLE);
                             dialogAddUrl.dismiss();
+                            dialogAddUrl = null;
                         }
                     }
                 });
@@ -374,5 +387,17 @@ public class CreateNoteActivity extends AppCompatActivity {
             }
             dialogAddUrl.show();
         }
+    }
+
+    private void removeImage() {
+        selectedImagePath = "";
+        ivNoteImage.setVisibility(View.GONE);
+        ivRemoveImage.setVisibility(View.GONE);
+    }
+
+    private void removeUrl() {
+        tvWebUrl.setText("");
+        tvWebUrl.setVisibility(View.GONE);
+        llNoteUrl.setVisibility(View.GONE);
     }
 }
