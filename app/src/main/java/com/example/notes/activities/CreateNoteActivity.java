@@ -17,7 +17,6 @@ import android.provider.MediaStore;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,6 +43,8 @@ import java.util.Locale;
 
 public class CreateNoteActivity extends AppCompatActivity {
 
+    private static final int REQUEST_CODE_STORAGE_PERMISSION = 1;
+    private static final int REQUEST_CODE_SELECT_IMAGE = 2;
     private ImageView ivBack, ivSave;
     private EditText etInputTitle, etInputSubtitle, etInputNote;
     private TextView tvDateTime;
@@ -54,14 +55,10 @@ public class CreateNoteActivity extends AppCompatActivity {
     private TextView tvWebUrl;
     private ImageView ivRemoveImage;
     private ImageView ivRemoveUrl;
-
     private String selectedColor;
     private String selectedImagePath;
-
-    private static final int REQUEST_CODE_STORAGE_PERMISSION = 1;
-    private static final int REQUEST_CODE_SELECT_IMAGE = 2;
-
     private AlertDialog dialogAddUrl;
+    private AlertDialog dialogDeleteNote;
 
     private Note alreadyExistNote;
 
@@ -246,12 +243,7 @@ public class CreateNoteActivity extends AppCompatActivity {
             }
         });
 
-        llMiscellaneous.findViewById(R.id.layout_miscellaneous_llAddUrl).setOnClickListener(v -> {
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            showAddUrlDialog();
-        });
-
-        if (alreadyExistNote != null && alreadyExistNote.getColor() != null && !alreadyExistNote.getColor().trim().toString().isEmpty()) {
+        if (alreadyExistNote != null && alreadyExistNote.getColor() != null && !alreadyExistNote.getColor().trim().isEmpty()) {
             switch (alreadyExistNote.getColor()) {
                 case "#FDBE3B":
                     llMiscellaneous.findViewById(R.id.layout_miscellaneous_ivColor2).performClick();
@@ -266,6 +258,19 @@ public class CreateNoteActivity extends AppCompatActivity {
                     llMiscellaneous.findViewById(R.id.layout_miscellaneous_ivColor5).performClick();
                     break;
             }
+        }
+
+        llMiscellaneous.findViewById(R.id.layout_miscellaneous_llAddUrl).setOnClickListener(v -> {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            showAddUrlDialog();
+        });
+
+        if (alreadyExistNote != null) {
+            llMiscellaneous.findViewById(R.id.layout_miscellaneous_llDeleteNote).setVisibility(View.VISIBLE);
+            llMiscellaneous.findViewById(R.id.layout_miscellaneous_llDeleteNote).setOnClickListener(v -> {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                showDeleteDialog();
+            });
         }
     }
 
@@ -351,7 +356,8 @@ public class CreateNoteActivity extends AppCompatActivity {
     private void showAddUrlDialog() {
         if (dialogAddUrl == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(CreateNoteActivity.this);
-            View view = LayoutInflater.from(this).inflate(R.layout.layout_add_url, (ViewGroup) findViewById(R.id.layout_add_url));
+            View view = LayoutInflater.from(this).inflate(R.layout.layout_add_url,
+                    findViewById(R.id.layout_add_url));
             builder.setView(view);
 
             dialogAddUrl = builder.create();
@@ -361,32 +367,77 @@ public class CreateNoteActivity extends AppCompatActivity {
                 final EditText etInputUrl = view.findViewById(R.id.layout_add_url_etInputUrl);
                 etInputUrl.requestFocus();
 
-                view.findViewById(R.id.layout_add_url_tvAdd).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (etInputUrl.getText().toString().trim().isEmpty()) {
-                            Toast.makeText(CreateNoteActivity.this, getResources().getString(R.string.toast_empty_url), Toast.LENGTH_SHORT).show();
-                        } else if (!Patterns.WEB_URL.matcher(etInputUrl.getText().toString().trim()).matches()) {
-                            Toast.makeText(CreateNoteActivity.this, getResources().getString(R.string.toast_invalid_url), Toast.LENGTH_SHORT).show();
-                        } else {
-                            tvWebUrl.setText(etInputUrl.getText().toString().trim());
-                            tvWebUrl.setVisibility(View.VISIBLE);
-                            llNoteUrl.setVisibility(View.VISIBLE);
-                            dialogAddUrl.dismiss();
-                            dialogAddUrl = null;
-                        }
+                view.findViewById(R.id.layout_add_url_tvAdd).setOnClickListener(v -> {
+                    if (etInputUrl.getText().toString().trim().isEmpty()) {
+                        Toast.makeText(CreateNoteActivity.this, getResources().getString(R.string.toast_empty_url), Toast.LENGTH_SHORT).show();
+                    } else if (!Patterns.WEB_URL.matcher(etInputUrl.getText().toString().trim()).matches()) {
+                        Toast.makeText(CreateNoteActivity.this, getResources().getString(R.string.toast_invalid_url), Toast.LENGTH_SHORT).show();
+                    } else {
+                        tvWebUrl.setText(etInputUrl.getText().toString().trim());
+                        tvWebUrl.setVisibility(View.VISIBLE);
+                        llNoteUrl.setVisibility(View.VISIBLE);
+                        dialogAddUrl.dismiss();
+                        dialogAddUrl = null;
                     }
                 });
 
-                view.findViewById(R.id.layout_add_url_tvCancel).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialogAddUrl.dismiss();
-                    }
+                view.findViewById(R.id.layout_add_url_tvCancel).setOnClickListener(v -> {
+                    dialogAddUrl.dismiss();
+                    dialogAddUrl = null;
                 });
             }
             dialogAddUrl.show();
         }
+    }
+
+    private void showDeleteDialog() {
+        if (dialogDeleteNote == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(CreateNoteActivity.this);
+            View view = LayoutInflater.from(this).inflate(
+                    R.layout.layout_delete_note,
+                    findViewById(R.id.layout_delete_note_container)
+            );
+            builder.setView(view);
+            dialogDeleteNote = builder.create();
+            if (dialogDeleteNote.getWindow() != null) {
+                dialogDeleteNote.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+            }
+            view.findViewById(R.id.layout_delete_note_tvConfirmDeleteNote).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    @SuppressLint("StaticFieldLeak")
+                    class DeleteNoteTask extends AsyncTask<Void, Void, Void> {
+
+                        DeleteNoteTask() {
+                            super();
+                        }
+
+                        @Override
+                        protected Void doInBackground(Void... voids) {
+                            NoteDatabase.getNoteDatabase(getApplicationContext()).noteDao()
+                                    .deleteNote(alreadyExistNote);
+                            return null;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Void unused) {
+                            super.onPostExecute(unused);
+                            Intent intent = new Intent();
+                            intent.putExtra("isNoteDeleted", true);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+                    }
+                    new DeleteNoteTask().execute();
+                }
+            });
+
+            view.findViewById(R.id.layout_delete_note_tvCancel).setOnClickListener(v -> {
+                dialogDeleteNote.dismiss();
+                dialogDeleteNote = null;
+            });
+        }
+        dialogDeleteNote.show();
     }
 
     private void removeImage() {

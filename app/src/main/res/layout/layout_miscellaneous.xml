@@ -218,7 +218,7 @@
             android:layout_width="@dimen/_22sdp"
             android:layout_height="@dimen/_22sdp"
             android:contentDescription="@string/description_add_image_icon"
-            android:src="@drawable/ic_web_link"
+            android:src="@drawable/ic_delete"
             app:tint="@color/colorDelete" />
 
         <TextView
