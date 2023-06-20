@@ -28,4 +28,5 @@
     <string name="toast_empty_url">Đường dẫn không thể trống</string>
     <string name="toast_invalid_url">Đường dẫn không hợp lệ</string>
     <string name="description_delete_icon">Biểu tượng xoá</string>
+    <string name="delete_note">Xoá ghi chú</string>
 </resources>

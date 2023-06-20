@@ -27,4 +27,5 @@
     <string name="toast_empty_url">URL can\'t be empty</string>
     <string name="toast_invalid_url">URL is invalid</string>
     <string name="description_delete_icon">Delete icon</string>
+    <string name="delete_note">Delete note</string>
 </resources>
