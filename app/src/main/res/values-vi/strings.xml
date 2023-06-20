@@ -29,4 +29,5 @@
     <string name="toast_invalid_url">Đường dẫn không hợp lệ</string>
     <string name="description_delete_icon">Biểu tượng xoá</string>
     <string name="delete_note">Xoá ghi chú</string>
+    <string name="delete_confirm_question">Bạn có chắc chắn muốn xoá ghi chú này không?</string>
 </resources>

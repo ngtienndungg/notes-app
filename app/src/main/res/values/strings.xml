@@ -28,4 +28,5 @@
     <string name="toast_invalid_url">URL is invalid</string>
     <string name="description_delete_icon">Delete icon</string>
     <string name="delete_note">Delete note</string>
+    <string name="delete_confirm_question">Are you sure you want to delete this note?</string>
 </resources>
