@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
 
     private List<Note> noteList;
     private NoteAdapter noteAdapter;
+    private EditText etInputSearch;
 
     private int noteClickedPosition;
 
@@ -43,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
         viewMapping();
 
         // Handle set text event
-        onClickHandling();
+        eventHandling();
 
         // Setup recycler view
         setupRecyclerView();
@@ -64,13 +68,33 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
     private void viewMapping() {
         ivAddNoteMain = findViewById(R.id.activity_main_ivAddNoteMain);
         rvNotes = findViewById(R.id.activity_main_rvNotes);
+        etInputSearch = findViewById(R.id.activity_main_etInputSearch);
     }
 
-    private void onClickHandling() {
+    private void eventHandling() {
         ivAddNoteMain.setOnClickListener(v -> startActivityForResult(
                 new Intent(getApplicationContext(), CreateNoteActivity.class),
                 REQUEST_CODE_ADD_NOTE
         ));
+
+        etInputSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                noteAdapter.cancelTimer();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (noteList.size() != 0) {
+                    noteAdapter.searchNote(s.toString());
+                }
+            }
+        });
     }
 
     private void getNotes(final int requestCode, final boolean isNoteDeleted) {

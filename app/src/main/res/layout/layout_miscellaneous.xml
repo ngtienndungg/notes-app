@@ -110,7 +110,8 @@
                 android:layout_height="@dimen/_35sdp"
                 android:contentDescription="@string/description_done_icon"
                 android:paddingVertical="@dimen/_10sdp"
-                app:tint="@color/colorWhite" />
+                app:tint="@color/colorWhite"
+                tools:ignore="ImageContrastCheck" />
 
         </FrameLayout>
 
@@ -131,7 +132,8 @@
                 android:layout_height="@dimen/_35sdp"
                 android:contentDescription="@string/description_done_icon"
                 android:paddingVertical="@dimen/_10sdp"
-                app:tint="@color/colorWhite" />
+                app:tint="@color/colorWhite"
+                tools:ignore="ImageContrastCheck" />
 
         </FrameLayout>
 

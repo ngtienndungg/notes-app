@@ -63,7 +63,8 @@
                 android:textColorHint="@color/colorTextHint"
                 android:textSize="@dimen/_16sdp"
                 app:layout_constraintTop_toBottomOf="@id/activity_create_note_ivBack"
-                tools:ignore="TouchTargetSizeCheck" />
+                tools:ignore="TouchTargetSizeCheck,TextSizeCheck,VisualLintTextFieldSize"
+                tools:layout_editor_absoluteX="16dp" />
 
             <TextView
                 android:id="@+id/activity_create_note_tvDateTime"
@@ -96,7 +97,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/activity_create_note_vSubtitleIndicator"
                 app:layout_constraintTop_toBottomOf="@id/activity_create_note_tvDateTime"
-                tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
+                tools:ignore="TouchTargetSizeCheck,TextContrastCheck,VisualLintTextFieldSize" />
 
             <View
                 android:id="@+id/activity_create_note_vSubtitleIndicator"
@@ -186,7 +187,7 @@
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/activity_create_note_llNoteUrl"
-                tools:ignore="TextContrastCheck" />
+                tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

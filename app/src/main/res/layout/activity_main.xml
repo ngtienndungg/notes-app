@@ -40,7 +40,7 @@
             app:tint="@color/colorSearchIcon" />
 
         <EditText
-            android:id="@+id/activity_main_etSearch"
+            android:id="@+id/activity_main_etInputSearch"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_35sdp"
             android:layout_marginStart="@dimen/_12sdp"
@@ -53,7 +53,8 @@
             android:inputType="text"
             android:textColor="@color/colorWhite"
             android:textColorHint="@color/colorTextHint"
-            android:textSize="@dimen/_13ssp" />
+            android:textSize="@dimen/_13ssp"
+            tools:ignore="TouchTargetSizeCheck,TextContrastCheck,VisualLintTextFieldSize" />
 
     </LinearLayout>
 
