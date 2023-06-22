@@ -106,10 +106,24 @@ public class CreateNoteActivity extends AppCompatActivity {
         tvDateTime.setText(new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date()));
         selectedColor = "#333333";
         selectedImagePath = "";
+
         if (getIntent().getBooleanExtra("isReviewOrUpdate", false)) {
             alreadyExistNote = (Note) getIntent().getSerializableExtra("note");
             setReviewOrUpdateNote();
         }
+
+        if (getIntent().getBooleanExtra("isFromQuickAction", false)) {
+            String type = getIntent().getStringExtra("quickActionType");
+            if (type != null) {
+                if (type.equals("image")) {
+                    selectedImagePath = getIntent().getStringExtra("imagePath");
+                    ivNoteImage.setImageBitmap(BitmapFactory.decodeFile(selectedImagePath));
+                    ivNoteImage.setVisibility(View.VISIBLE);
+                    ivRemoveImage.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+
         setSubtitleIndicatorColor();
     }
 

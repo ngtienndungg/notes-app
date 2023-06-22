@@ -1,15 +1,25 @@
 package com.example.notes.activities;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -72,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
     private void eventHandling() {
         ivAddNoteMain.setOnClickListener(v -> addNote());
         ivAddNote.setOnClickListener(v -> addNote());
+        ivAddImage.setOnClickListener(v -> addNoteImage());
         searchNote();
     }
 
@@ -100,6 +111,41 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
                 }
             }
         });
+    }
+
+    @SuppressLint("InlinedApi")
+    private void addNoteImage() {
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_MEDIA_IMAGES)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.READ_MEDIA_IMAGES},
+                    REQUEST_CODE_STORAGE_PERMISSION);
+        } else {
+            selectImage();
+        }
+    }
+
+    private void selectImage() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        try {
+            startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE);
+        } catch (Exception e) {
+            Toast.makeText(this, getResources().getString(R.string.toast_something_wrong), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String getPathFromUri(Uri contentUri) {
+        String filePath;
+        Cursor cursor = getContentResolver().query(contentUri, null, null, null, null);
+        if (cursor == null) {
+            filePath = contentUri.getPath();
+        } else {
+            cursor.moveToFirst();
+            int index = cursor.getColumnIndex("_data");
+            filePath = cursor.getString(index);
+            cursor.close();
+        }
+        return filePath;
     }
 
     @Override
@@ -154,5 +200,41 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
         noteList = new ArrayList<>();
         noteAdapter = new NoteAdapter(noteList, this);
         rvNotes.setAdapter(noteAdapter);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_ADD_NOTE && resultCode == RESULT_OK) {
+            getNotes(REQUEST_CODE_ADD_NOTE, false);
+        } else if (requestCode == REQUEST_CODE_UPDATE_NOTE && resultCode == RESULT_OK) {
+            if (data != null) {
+                getNotes(REQUEST_CODE_UPDATE_NOTE, data.getBooleanExtra("isNoteDeleted", false));
+            }
+        } else if (requestCode ==REQUEST_CODE_SELECT_IMAGE && resultCode == RESULT_OK) {
+            if (data != null) {
+                Uri selectedUri = data.getData();
+                if (selectedUri != null) {
+                    try {
+                        String selectedPath = getPathFromUri(selectedUri);
+                        Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
+                        intent.putExtra("isFromQuickAction", true);
+                        intent.putExtra("quickActionType", "image");
+                        intent.putExtra("imagePath", selectedPath);
+                        startActivityForResult(intent, REQUEST_CODE_ADD_NOTE);
+                    } catch (Exception e) {
+                        Toast.makeText(this, getResources().getString(R.string.toast_something_wrong), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_STORAGE_PERMISSION && grantResults.length > 0) {
+            selectImage();
+        }
     }
 }
