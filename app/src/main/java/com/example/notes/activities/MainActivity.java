@@ -9,7 +9,6 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -28,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
     public static final int REQUEST_CODE_ADD_NOTE = 1;
     public static final int REQUEST_CODE_UPDATE_NOTE = 2;
     public static final int REQUEST_CODE_SHOW_NOTE = 3;
+    public static final int REQUEST_CODE_SELECT_IMAGE = 4;
+    public static final int REQUEST_CODE_STORAGE_PERMISSION = 5;
 
     private ImageView ivAddNoteMain;
     private RecyclerView rvNotes;
@@ -35,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
     private List<Note> noteList;
     private NoteAdapter noteAdapter;
     private EditText etInputSearch;
+    private ImageView ivAddImage;
+    private ImageView ivAddUrl;
+    private ImageView ivAddNote;
 
     private int noteClickedPosition;
 
@@ -56,27 +60,28 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
         getNotes(REQUEST_CODE_SHOW_NOTE, false);
     }
 
-    @Override
-    public void onNoteClicked(Note note, int position) {
-        noteClickedPosition = position;
-        Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
-        intent.putExtra("isReviewOrUpdate", true);
-        intent.putExtra("note", note);
-        startActivityForResult(intent, REQUEST_CODE_UPDATE_NOTE);
-    }
-
     private void viewMapping() {
         ivAddNoteMain = findViewById(R.id.activity_main_ivAddNoteMain);
         rvNotes = findViewById(R.id.activity_main_rvNotes);
         etInputSearch = findViewById(R.id.activity_main_etInputSearch);
+        ivAddImage = findViewById(R.id.activity_main_ivAddImage);
+        ivAddUrl = findViewById(R.id.activity_main_ivAddWebLink);
+        ivAddNote = findViewById(R.id.activity_main_ivAddNote);
     }
 
     private void eventHandling() {
-        ivAddNoteMain.setOnClickListener(v -> startActivityForResult(
-                new Intent(getApplicationContext(), CreateNoteActivity.class),
-                REQUEST_CODE_ADD_NOTE
-        ));
+        ivAddNoteMain.setOnClickListener(v -> addNote());
+        ivAddNote.setOnClickListener(v -> addNote());
+        searchNote();
+    }
 
+    private void addNote() {
+        startActivityForResult(
+                new Intent(getApplicationContext(), CreateNoteActivity.class),
+                REQUEST_CODE_ADD_NOTE);
+    }
+
+    private void searchNote() {
         etInputSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -95,6 +100,15 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
                 }
             }
         });
+    }
+
+    @Override
+    public void onNoteClicked(Note note, int position) {
+        noteClickedPosition = position;
+        Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
+        intent.putExtra("isReviewOrUpdate", true);
+        intent.putExtra("note", note);
+        startActivityForResult(intent, REQUEST_CODE_UPDATE_NOTE);
     }
 
     private void getNotes(final int requestCode, final boolean isNoteDeleted) {
@@ -141,17 +155,4 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
         noteAdapter = new NoteAdapter(noteList, this);
         rvNotes.setAdapter(noteAdapter);
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_ADD_NOTE && resultCode == RESULT_OK) {
-            getNotes(REQUEST_CODE_ADD_NOTE, false);
-        } else if (requestCode == REQUEST_CODE_UPDATE_NOTE && resultCode == RESULT_OK) {
-            if (data != null) {
-                getNotes(REQUEST_CODE_UPDATE_NOTE, data.getBooleanExtra("isNoteDeleted", false));
-            }
-        }
-    }
-
 }

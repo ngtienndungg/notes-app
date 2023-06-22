@@ -77,7 +77,8 @@
         android:background="@color/colorQuickActionBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="@dimen/_15sdp"
+        android:paddingVertical="@dimen/_15sdp"
+        android:paddingHorizontal="@dimen/_4sdp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
