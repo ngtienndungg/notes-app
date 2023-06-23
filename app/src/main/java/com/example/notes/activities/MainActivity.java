@@ -5,18 +5,23 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Patterns;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -51,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
     private ImageView ivAddNote;
 
     private int noteClickedPosition;
+    private AlertDialog dialogAddUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
         rvNotes = findViewById(R.id.activity_main_rvNotes);
         etInputSearch = findViewById(R.id.activity_main_etInputSearch);
         ivAddImage = findViewById(R.id.activity_main_ivAddImage);
-        ivAddUrl = findViewById(R.id.activity_main_ivAddWebLink);
+        ivAddUrl = findViewById(R.id.activity_main_ivAddNoteUrl);
         ivAddNote = findViewById(R.id.activity_main_ivAddNote);
     }
 
@@ -83,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
         ivAddNoteMain.setOnClickListener(v -> addNote());
         ivAddNote.setOnClickListener(v -> addNote());
         ivAddImage.setOnClickListener(v -> addNoteImage());
+        ivAddUrl.setOnClickListener(v -> showAddUrlDialog());
         searchNote();
     }
 
@@ -202,6 +209,45 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
         rvNotes.setAdapter(noteAdapter);
     }
 
+    private void showAddUrlDialog() {
+        if (dialogAddUrl == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            View view = LayoutInflater.from(this).inflate(R.layout.layout_add_url,
+                    findViewById(R.id.layout_add_url));
+            builder.setView(view);
+
+            dialogAddUrl = builder.create();
+            if (dialogAddUrl.getWindow() != null) {
+                dialogAddUrl.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+
+                final EditText etInputUrl = view.findViewById(R.id.layout_add_url_etInputUrl);
+                etInputUrl.requestFocus();
+
+                view.findViewById(R.id.layout_add_url_tvAdd).setOnClickListener(v -> {
+                    if (etInputUrl.getText().toString().trim().isEmpty()) {
+                        Toast.makeText(MainActivity.this, getResources().getString(R.string.toast_empty_url), Toast.LENGTH_SHORT).show();
+                    } else if (!Patterns.WEB_URL.matcher(etInputUrl.getText().toString().trim()).matches()) {
+                        Toast.makeText(MainActivity.this, getResources().getString(R.string.toast_invalid_url), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
+                        intent.putExtra("isFromQuickAction", true);
+                        intent.putExtra("quickActionType", "url");
+                        intent.putExtra("url", etInputUrl.getText().toString().trim());
+                        startActivityForResult(intent, REQUEST_CODE_ADD_NOTE);
+                        dialogAddUrl.dismiss();
+                        dialogAddUrl = null;
+                    }
+                });
+
+                view.findViewById(R.id.layout_add_url_tvCancel).setOnClickListener(v -> {
+                    dialogAddUrl.dismiss();
+                    dialogAddUrl = null;
+                });
+            }
+            dialogAddUrl.show();
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -211,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
             if (data != null) {
                 getNotes(REQUEST_CODE_UPDATE_NOTE, data.getBooleanExtra("isNoteDeleted", false));
             }
-        } else if (requestCode ==REQUEST_CODE_SELECT_IMAGE && resultCode == RESULT_OK) {
+        } else if (requestCode == REQUEST_CODE_SELECT_IMAGE && resultCode == RESULT_OK) {
             if (data != null) {
                 Uri selectedUri = data.getData();
                 if (selectedUri != null) {

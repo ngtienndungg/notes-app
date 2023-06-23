@@ -52,7 +52,7 @@ public class CreateNoteActivity extends AppCompatActivity {
     private View vSubtitleIndicator;
     private ImageView ivNoteImage;
     private LinearLayout llNoteUrl;
-    private TextView tvWebUrl;
+    private TextView tvNoteUrl;
     private ImageView ivRemoveImage;
     private ImageView ivRemoveUrl;
     private String selectedColor;
@@ -88,7 +88,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         llMiscellaneous = findViewById(R.id.llMiscellaneous);
         vSubtitleIndicator = findViewById(R.id.activity_create_note_vSubtitleIndicator);
         ivNoteImage = findViewById(R.id.activity_create_note_ivNoteImage);
-        tvWebUrl = findViewById(R.id.activity_create_note_tvWebUrl);
+        tvNoteUrl = findViewById(R.id.activity_create_note_tvNoteUrl);
         llNoteUrl = findViewById(R.id.activity_create_note_llNoteUrl);
         ivRemoveImage = findViewById(R.id.activity_create_note_ivRemoveImage);
         ivRemoveUrl = findViewById(R.id.activity_create_note_ivRemoveUrl);
@@ -120,6 +120,11 @@ public class CreateNoteActivity extends AppCompatActivity {
                     ivNoteImage.setImageBitmap(BitmapFactory.decodeFile(selectedImagePath));
                     ivNoteImage.setVisibility(View.VISIBLE);
                     ivRemoveImage.setVisibility(View.VISIBLE);
+                } else if (type.equals("url")) {
+                    tvNoteUrl.setText(getIntent().getStringExtra("url"));
+                    tvNoteUrl.setVisibility(View.VISIBLE);
+                    ivRemoveUrl.setVisibility(View.VISIBLE);
+                    llNoteUrl.setVisibility(View.VISIBLE);
                 }
             }
         }
@@ -147,8 +152,8 @@ public class CreateNoteActivity extends AppCompatActivity {
             note.setImagePath(selectedImagePath);
         }
 
-        if (tvWebUrl.getVisibility() == View.VISIBLE) {
-            note.setWebLink(tvWebUrl.getText().toString());
+        if (tvNoteUrl.getVisibility() == View.VISIBLE) {
+            note.setWebLink(tvNoteUrl.getText().toString());
         }
 
         if (alreadyExistNote != null) {
@@ -317,8 +322,8 @@ public class CreateNoteActivity extends AppCompatActivity {
         }
 
         if (alreadyExistNote.getWebLink() != null && !alreadyExistNote.getWebLink().trim().isEmpty()) {
-            tvWebUrl.setText(alreadyExistNote.getWebLink());
-            tvWebUrl.setVisibility(View.VISIBLE);
+            tvNoteUrl.setText(alreadyExistNote.getWebLink());
+            tvNoteUrl.setVisibility(View.VISIBLE);
             llNoteUrl.setVisibility(View.VISIBLE);
         }
     }
@@ -387,8 +392,8 @@ public class CreateNoteActivity extends AppCompatActivity {
                     } else if (!Patterns.WEB_URL.matcher(etInputUrl.getText().toString().trim()).matches()) {
                         Toast.makeText(CreateNoteActivity.this, getResources().getString(R.string.toast_invalid_url), Toast.LENGTH_SHORT).show();
                     } else {
-                        tvWebUrl.setText(etInputUrl.getText().toString().trim());
-                        tvWebUrl.setVisibility(View.VISIBLE);
+                        tvNoteUrl.setText(etInputUrl.getText().toString().trim());
+                        tvNoteUrl.setVisibility(View.VISIBLE);
                         llNoteUrl.setVisibility(View.VISIBLE);
                         dialogAddUrl.dismiss();
                         dialogAddUrl = null;
@@ -461,8 +466,8 @@ public class CreateNoteActivity extends AppCompatActivity {
     }
 
     private void removeUrl() {
-        tvWebUrl.setText("");
-        tvWebUrl.setVisibility(View.GONE);
+        tvNoteUrl.setText("");
+        tvNoteUrl.setVisibility(View.GONE);
         llNoteUrl.setVisibility(View.GONE);
     }
 }

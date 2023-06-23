@@ -148,7 +148,7 @@
                 tools:ignore="UseCompoundDrawables">
 
                 <TextView
-                    android:id="@+id/activity_create_note_tvWebUrl"
+                    android:id="@+id/activity_create_note_tvNoteUrl"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

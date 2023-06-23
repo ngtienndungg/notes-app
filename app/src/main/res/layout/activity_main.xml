@@ -100,7 +100,7 @@
             app:tint="@color/colorIcon" />
 
         <ImageView
-            android:id="@+id/activity_main_ivAddWebLink"
+            android:id="@+id/activity_main_ivAddNoteUrl"
             android:layout_width="@dimen/_23sdp"
             android:layout_height="@dimen/_23sdp"
             android:layout_marginStart="@dimen/_15sdp"
