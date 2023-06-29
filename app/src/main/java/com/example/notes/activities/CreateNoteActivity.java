@@ -61,6 +61,7 @@ public class CreateNoteActivity extends AppCompatActivity {
     private String selectedImagePath;
     private AlertDialog dialogAddUrl;
     private AlertDialog dialogDeleteNote;
+    private AlertDialog dialogUnsavedNote;
 
     private Note alreadyExistNote;
 
@@ -257,9 +258,11 @@ public class CreateNoteActivity extends AppCompatActivity {
         llMiscellaneous.findViewById(R.id.layout_miscellaneous_llAddImage).setOnClickListener(v -> {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_MEDIA_IMAGES)
+                    != PackageManager.PERMISSION_GRANTED
+                    || ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(CreateNoteActivity.this,
-                        new String[]{Manifest.permission.READ_MEDIA_IMAGES},
+                        new String[]{Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_EXTERNAL_STORAGE},
                         REQUEST_CODE_STORAGE_PERMISSION);
             } else {
                 selectImage();
@@ -431,7 +434,7 @@ public class CreateNoteActivity extends AppCompatActivity {
             builder.setView(view);
             dialogDeleteNote = builder.create();
             if (dialogDeleteNote.getWindow() != null) {
-                dialogDeleteNote.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+                dialogDeleteNote.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorDelete)));
             }
             view.findViewById(R.id.layout_delete_note_tvConfirmDeleteNote).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -469,6 +472,15 @@ public class CreateNoteActivity extends AppCompatActivity {
             });
         }
         dialogDeleteNote.show();
+    }
+
+    private void showUnsavedDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(CreateNoteActivity.this);
+        View view = LayoutInflater.from(this).inflate(
+                R.layout.layout_save_note,
+                findViewById(R.id.layout_save_note_container));
+        builder.setView(view);
+
     }
 
     private void removeImage() {
