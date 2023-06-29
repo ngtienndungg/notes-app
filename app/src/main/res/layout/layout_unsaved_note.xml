@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_save_note_container"
+    android:id="@+id/layout_unsaved_note_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
@@ -10,7 +10,7 @@
     android:background="@drawable/background_dialog">
 
     <ImageView
-        android:id="@+id/layout_save_note_ivSaveNote"
+        android:id="@+id/layout_unsaved_note_ivSaveNote"
         android:layout_width="@dimen/_25sdp"
         android:layout_height="@dimen/_25sdp"
         android:layout_marginStart="@dimen/_8sdp"
@@ -22,7 +22,7 @@
         app:tint="@color/colorWhite" />
 
     <TextView
-        android:id="@+id/layout_save_note_tvDeleteNote"
+        android:id="@+id/layout_unsaved_note_tvDeleteNote"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_8sdp"
@@ -31,13 +31,13 @@
         android:text="@string/save_note"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/_14ssp"
-        app:layout_constraintBottom_toBottomOf="@id/layout_save_note_ivSaveNote"
+        app:layout_constraintBottom_toBottomOf="@id/layout_unsaved_note_ivSaveNote"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/layout_save_note_ivSaveNote"
-        app:layout_constraintTop_toTopOf="@id/layout_save_note_ivSaveNote" />
+        app:layout_constraintStart_toEndOf="@id/layout_unsaved_note_ivSaveNote"
+        app:layout_constraintTop_toTopOf="@id/layout_unsaved_note_ivSaveNote" />
 
     <TextView
-        android:id="@+id/layout_save_note_tvSaveMessage"
+        android:id="@+id/layout_unsaved_note_tvSaveMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_8sdp"
@@ -49,10 +49,10 @@
         android:text="@string/save_confirm_question"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/_13ssp"
-        app:layout_constraintTop_toBottomOf="@id/layout_save_note_ivSaveNote" />
+        app:layout_constraintTop_toBottomOf="@id/layout_unsaved_note_ivSaveNote" />
 
     <TextView
-        android:id="@+id/layout_save_note_tvConfirmSaveNote"
+        android:id="@+id/layout_unsaved_note_tvLeave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_8sdp"
@@ -67,11 +67,11 @@
         android:textSize="@dimen/_13ssp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_save_note_tvSaveMessage"
+        app:layout_constraintTop_toBottomOf="@id/layout_unsaved_note_tvSaveMessage"
         tools:ignore="TextContrastCheck" />
 
     <TextView
-        android:id="@+id/layout_save_note_tvCancel"
+        android:id="@+id/layout_unsaved_note_tvCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_8sdp"
@@ -85,8 +85,8 @@
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/_13ssp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/layout_save_note_tvConfirmSaveNote"
-        app:layout_constraintTop_toBottomOf="@id/layout_save_note_tvSaveMessage" />
+        app:layout_constraintEnd_toStartOf="@id/layout_unsaved_note_tvLeave"
+        app:layout_constraintTop_toBottomOf="@id/layout_unsaved_note_tvSaveMessage" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

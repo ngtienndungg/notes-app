@@ -36,4 +36,5 @@
     <string name="save_note">Save note</string>
     <string name="save_confirm_question">Unsaved note, are you sure you want to leave?</string>
     <string name="leave">Leave</string>
+    <string name="description_open_icon">Open icon</string>
 </resources>

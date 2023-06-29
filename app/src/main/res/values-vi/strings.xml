@@ -37,4 +37,5 @@
     <string name="save_note">Lưu ghi chú</string>
     <string name="save_confirm_question">Ghi chú chưa được lưu, bạn vẫn muốn thoát?</string>
     <string name="leave">Thoát</string>
+    <string name="description_open_icon">Biểu tượng mở</string>
 </resources>

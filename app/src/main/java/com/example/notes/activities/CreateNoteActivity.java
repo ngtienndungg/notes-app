@@ -100,7 +100,7 @@ public class CreateNoteActivity extends AppCompatActivity {
     }
 
     private void eventHandling() {
-        ivBack.setOnClickListener(v -> onBackPressed());
+        ivBack.setOnClickListener(v -> showUnsavedDialog());
         ivSave.setOnClickListener(v -> saveNote());
         ivRemoveImage.setOnClickListener(v -> removeImage());
         ivRemoveUrl.setOnClickListener(v -> removeUrl());
@@ -383,6 +383,7 @@ public class CreateNoteActivity extends AppCompatActivity {
     }
 
     private void showAddUrlDialog() {
+
         if (dialogAddUrl == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(CreateNoteActivity.this);
             View view = LayoutInflater.from(this).inflate(R.layout.layout_add_url,
@@ -434,7 +435,7 @@ public class CreateNoteActivity extends AppCompatActivity {
             builder.setView(view);
             dialogDeleteNote = builder.create();
             if (dialogDeleteNote.getWindow() != null) {
-                dialogDeleteNote.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorDelete)));
+                dialogDeleteNote.getWindow().setBackgroundDrawable(new ColorDrawable(0));
             }
             view.findViewById(R.id.layout_delete_note_tvConfirmDeleteNote).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -475,12 +476,24 @@ public class CreateNoteActivity extends AppCompatActivity {
     }
 
     private void showUnsavedDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(CreateNoteActivity.this);
-        View view = LayoutInflater.from(this).inflate(
-                R.layout.layout_save_note,
-                findViewById(R.id.layout_save_note_container));
-        builder.setView(view);
 
+        if (dialogUnsavedNote == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(CreateNoteActivity.this);
+            View view = LayoutInflater.from(this).inflate(
+                    R.layout.layout_unsaved_note,
+                    findViewById(R.id.layout_unsaved_note_container));
+            builder.setView(view);
+            dialogUnsavedNote = builder.create();
+            if (dialogUnsavedNote.getWindow() != null) {
+                dialogUnsavedNote.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+            }
+            view.findViewById(R.id.layout_unsaved_note_tvLeave).setOnClickListener(v -> onBackPressed());
+            view.findViewById(R.id.layout_unsaved_note_tvCancel).setOnClickListener(v -> {
+                dialogUnsavedNote.dismiss();
+                dialogUnsavedNote = null;
+            });
+            dialogUnsavedNote.show();
+        }
     }
 
     private void removeImage() {
