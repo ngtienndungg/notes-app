@@ -34,4 +34,7 @@
     <string name="open_note">Open note</string>
     <string name="change_url">Thay đổi đường dẫn</string>
     <string name="change_image">Thay đổi hình ảnh</string>
+    <string name="save_note">Lưu ghi chú</string>
+    <string name="save_confirm_question">Ghi chú chưa được lưu, bạn vẫn muốn thoát?</string>
+    <string name="leave">Thoát</string>
 </resources>

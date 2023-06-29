@@ -33,4 +33,7 @@
     <string name="open_note">Open note</string>
     <string name="change_url">Change URL</string>
     <string name="change_image">Change image</string>
+    <string name="save_note">Save note</string>
+    <string name="save_confirm_question">Unsaved note, are you sure you want to leave?</string>
+    <string name="leave">Leave</string>
 </resources>
