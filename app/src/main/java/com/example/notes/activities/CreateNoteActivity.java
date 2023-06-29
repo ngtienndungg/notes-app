@@ -53,6 +53,8 @@ public class CreateNoteActivity extends AppCompatActivity {
     private ImageView ivNoteImage;
     private LinearLayout llNoteUrl;
     private TextView tvNoteUrl;
+    private TextView tvAddUrl;
+    private TextView tvAddImage;
     private ImageView ivRemoveImage;
     private ImageView ivRemoveUrl;
     private String selectedColor;
@@ -92,6 +94,8 @@ public class CreateNoteActivity extends AppCompatActivity {
         llNoteUrl = findViewById(R.id.activity_create_note_llNoteUrl);
         ivRemoveImage = findViewById(R.id.activity_create_note_ivRemoveImage);
         ivRemoveUrl = findViewById(R.id.activity_create_note_ivRemoveUrl);
+        tvAddUrl = findViewById(R.id.layout_miscellaneous_tvAddUrl);
+        tvAddImage = findViewById(R.id.layout_miscellaneous_tvAddImage);
     }
 
     private void eventHandling() {
@@ -319,12 +323,14 @@ public class CreateNoteActivity extends AppCompatActivity {
             ivNoteImage.setVisibility(View.VISIBLE);
             ivRemoveImage.setVisibility(View.VISIBLE);
             selectedImagePath = alreadyExistNote.getImagePath();
+            tvAddImage.setText(getResources().getString(R.string.change_image));
         }
 
         if (alreadyExistNote.getWebLink() != null && !alreadyExistNote.getWebLink().trim().isEmpty()) {
             tvNoteUrl.setText(alreadyExistNote.getWebLink());
             tvNoteUrl.setVisibility(View.VISIBLE);
             llNoteUrl.setVisibility(View.VISIBLE);
+            tvAddUrl.setText(getResources().getString(R.string.change_url));
         }
     }
 
@@ -350,6 +356,7 @@ public class CreateNoteActivity extends AppCompatActivity {
                         ivNoteImage.setVisibility(View.VISIBLE);
                         selectedImagePath = getPathFromUri(selectedImageUri);
                         ivRemoveImage.setVisibility(View.VISIBLE);
+                        tvAddImage.setText(getResources().getString(R.string.change_image));
                     } catch (Exception e) {
                         Toast.makeText(this, getResources().getString(R.string.toast_something_wrong), Toast.LENGTH_SHORT).show();
                     }
@@ -384,6 +391,10 @@ public class CreateNoteActivity extends AppCompatActivity {
                 dialogAddUrl.getWindow().setBackgroundDrawable(new ColorDrawable(0));
 
                 final EditText etInputUrl = view.findViewById(R.id.layout_add_url_etInputUrl);
+
+                if (llNoteUrl.getVisibility() == View.VISIBLE) {
+                    etInputUrl.setText(tvNoteUrl.getText());
+                }
                 etInputUrl.requestFocus();
 
                 view.findViewById(R.id.layout_add_url_tvAdd).setOnClickListener(v -> {
@@ -395,6 +406,7 @@ public class CreateNoteActivity extends AppCompatActivity {
                         tvNoteUrl.setText(etInputUrl.getText().toString().trim());
                         tvNoteUrl.setVisibility(View.VISIBLE);
                         llNoteUrl.setVisibility(View.VISIBLE);
+                        tvAddUrl.setText(getResources().getString(R.string.change_url));
                         dialogAddUrl.dismiss();
                         dialogAddUrl = null;
                     }
@@ -463,11 +475,13 @@ public class CreateNoteActivity extends AppCompatActivity {
         selectedImagePath = "";
         ivNoteImage.setVisibility(View.GONE);
         ivRemoveImage.setVisibility(View.GONE);
+        tvAddImage.setText(getResources().getString(R.string.add_image));
     }
 
     private void removeUrl() {
         tvNoteUrl.setText("");
         tvNoteUrl.setVisibility(View.GONE);
         llNoteUrl.setVisibility(View.GONE);
+        tvAddUrl.setText(getResources().getString(R.string.add_url));
     }
 }

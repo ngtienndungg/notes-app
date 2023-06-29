@@ -165,6 +165,7 @@
             app:tint="@color/colorIcon" />
 
         <TextView
+            android:id="@+id/layout_miscellaneous_tvAddImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
@@ -194,6 +195,7 @@
             app:tint="@color/colorIcon" />
 
         <TextView
+            android:id="@+id/layout_miscellaneous_tvAddUrl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
