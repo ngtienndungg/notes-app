@@ -476,7 +476,6 @@ public class CreateNoteActivity extends AppCompatActivity {
     }
 
     private void showUnsavedDialog() {
-
         if (dialogUnsavedNote == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(CreateNoteActivity.this);
             View view = LayoutInflater.from(this).inflate(
@@ -487,7 +486,7 @@ public class CreateNoteActivity extends AppCompatActivity {
             if (dialogUnsavedNote.getWindow() != null) {
                 dialogUnsavedNote.getWindow().setBackgroundDrawable(new ColorDrawable(0));
             }
-            view.findViewById(R.id.layout_unsaved_note_tvLeave).setOnClickListener(v -> onBackPressed());
+            view.findViewById(R.id.layout_unsaved_note_tvLeave).setOnClickListener(v -> finish());
             view.findViewById(R.id.layout_unsaved_note_tvCancel).setOnClickListener(v -> {
                 dialogUnsavedNote.dismiss();
                 dialogUnsavedNote = null;
@@ -508,5 +507,10 @@ public class CreateNoteActivity extends AppCompatActivity {
         tvNoteUrl.setVisibility(View.GONE);
         llNoteUrl.setVisibility(View.GONE);
         tvAddUrl.setText(getResources().getString(R.string.add_url));
+    }
+
+    @Override
+    public void onBackPressed() {
+        showUnsavedDialog();
     }
 }

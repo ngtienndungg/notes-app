@@ -38,4 +38,5 @@
     <string name="save_confirm_question">Ghi chú chưa được lưu, bạn vẫn muốn thoát?</string>
     <string name="leave">Thoát</string>
     <string name="description_open_icon">Biểu tượng mở</string>
+    <string name="description_more_icon">Biểu tượng hơn nữa</string>
 </resources>
