@@ -9,21 +9,32 @@
     android:background="@drawable/background_note"
     android:orientation="vertical">
 
+    <ImageView
+        android:id="@+id/item_container_note_ivMore"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:contentDescription="@string/description_more_icon"
+        android:src="@drawable/ic_more"
+        app:tint="@color/colorWhite" />
+
+
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/item_container_note_rivNoteImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_6sdp"
         android:adjustViewBounds="true"
+        android:paddingHorizontal="@dimen/_5sdp"
         android:visibility="gone"
-        app:riv_corner_radius_top_left="@dimen/_10sdp"
-        app:riv_corner_radius_top_right="@dimen/_10sdp" />
+        app:riv_corner_radius="@dimen/_6sdp" />
 
     <TextView
         android:id="@+id/item_container_note_tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_4sdp"
         android:fontFamily="@font/ubuntu_bold"
         android:includeFontPadding="false"
         android:textColor="@color/colorWhite"
@@ -44,10 +55,13 @@
         android:id="@+id/item_container_note_tvDateTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginEnd="@dimen/_4sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
         android:fontFamily="@font/ubuntu_regular"
         android:includeFontPadding="false"
         android:textColor="@color/colorTextSubtitle"
-        android:textSize="@dimen/_7ssp" />
+        android:textSize="@dimen/_8ssp" />
 
 </LinearLayout>

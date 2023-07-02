@@ -30,8 +30,9 @@
     <string name="description_delete_icon">Biểu tượng xoá</string>
     <string name="delete_note">Xoá ghi chú</string>
     <string name="delete_confirm_question">Bạn có chắc chắn muốn xoá ghi chú này không?</string>
-    <string name="pin_note">Ghim ghi chú</string>
-    <string name="open_note">Open note</string>
+    <string name="pin">Ghim</string>
+    <string name="open">Mở</string>
+    <string name="delete">Xoá</string>
     <string name="change_url">Thay đổi đường dẫn</string>
     <string name="change_image">Thay đổi hình ảnh</string>
     <string name="save_note">Lưu ghi chú</string>

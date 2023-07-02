@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -52,6 +53,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         holder.setNote(notes.get(position));
         holder.llNote.setOnClickListener(v -> noteListener.onNoteClicked(notes.get(holder.getAdapterPosition()), holder.getAdapterPosition()));
+        holder.llNote.setOnLongClickListener(v -> {
+            noteListener.onNoteLongClicked(notes.get(holder.getAdapterPosition()), holder.getAdapterPosition());
+            return false;
+        });
+        holder.ivMore.setOnClickListener(v -> noteListener.onMoreClicked(notes.get(holder.getAdapterPosition()), holder.getAdapterPosition()));
     }
 
     @Override
@@ -69,6 +75,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         private TextView tvTitle, tvSubtitle, tvDateTime;
         private LinearLayout llNote;
         private RoundedImageView rivNoteImage;
+        private ImageView ivMore;
 
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -81,6 +88,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             tvDateTime = itemView.findViewById(R.id.item_container_note_tvDateTime);
             llNote = itemView.findViewById(R.id.item_container_note_llNote);
             rivNoteImage = itemView.findViewById(R.id.item_container_note_rivNoteImage);
+            ivMore = itemView.findViewById(R.id.item_container_note_ivMore);
         }
 
         private void setNote(Note note) {

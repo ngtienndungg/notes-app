@@ -2,6 +2,7 @@ package com.example.notes.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -17,6 +18,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,6 +39,7 @@ import com.example.notes.listeners.NoteListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements NoteListener {
 
@@ -100,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
     }
 
     private void searchNote() {
-        etInputSearch.addTextChangedListener(new TextWatcher() {
+                etInputSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -162,6 +166,23 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
         intent.putExtra("isReviewOrUpdate", true);
         intent.putExtra("note", note);
         startActivityForResult(intent, REQUEST_CODE_UPDATE_NOTE);
+    }
+
+    @Override
+    public void onNoteLongClicked(Note note, int position) {
+        LinearLayout item = findViewById(R.id.item_container_note_llNote);
+        registerForContextMenu(item);
+    }
+
+    @Override
+    public void onMoreClicked(Note note, int position) {
+        noteClickedPosition = position;
+        PopupWindow popupWindow;
+        LayoutInflater inflater = (LayoutInflater)
+                getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.layout_menu_note_item, findViewById(R.id.layout_menu_note_item_llMenu));
+        popupWindow = new PopupWindow(view, 300, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.showAsDropDown(Objects.requireNonNull(rvNotes.findViewHolderForAdapterPosition(noteClickedPosition)).itemView.findViewById(R.id.item_container_note_ivMore), 0, 0);
     }
 
     private void getNotes(final int requestCode, final boolean isNoteDeleted) {
