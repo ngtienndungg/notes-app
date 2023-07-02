@@ -170,19 +170,14 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
 
     @Override
     public void onNoteLongClicked(Note note, int position) {
-        LinearLayout item = findViewById(R.id.item_container_note_llNote);
-        registerForContextMenu(item);
+        noteClickedPosition = position;
+        showPopupWindow();
     }
 
     @Override
     public void onMoreClicked(Note note, int position) {
         noteClickedPosition = position;
-        PopupWindow popupWindow;
-        LayoutInflater inflater = (LayoutInflater)
-                getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.layout_menu_note_item, findViewById(R.id.layout_menu_note_item_llMenu));
-        popupWindow = new PopupWindow(view, 300, LinearLayout.LayoutParams.WRAP_CONTENT, true);
-        popupWindow.showAsDropDown(Objects.requireNonNull(rvNotes.findViewHolderForAdapterPosition(noteClickedPosition)).itemView.findViewById(R.id.item_container_note_ivMore), 0, 0);
+        showPopupWindow();
     }
 
     private void getNotes(final int requestCode, final boolean isNoteDeleted) {
@@ -303,5 +298,13 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
         if (requestCode == REQUEST_CODE_STORAGE_PERMISSION && grantResults.length > 0) {
             selectImage();
         }
+    }
+
+    void showPopupWindow() {
+        PopupWindow popupWindow;
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.layout_menu_note_item, findViewById(R.id.layout_menu_note_item_llMenu));
+        popupWindow = new PopupWindow(view, 320, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.showAsDropDown(Objects.requireNonNull(rvNotes.findViewHolderForAdapterPosition(noteClickedPosition)).itemView.findViewById(R.id.item_container_note_ivMore), 0, 0);
     }
 }
