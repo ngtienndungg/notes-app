@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
 
     private int noteClickedPosition;
     private AlertDialog dialogAddUrl;
+    AlertDialog dialogDeleteNote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
     }
 
     private void searchNote() {
-                etInputSearch.addTextChangedListener(new TextWatcher() {
+        etInputSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -162,22 +163,19 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
     @Override
     public void onNoteClicked(Note note, int position) {
         noteClickedPosition = position;
-        Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
-        intent.putExtra("isReviewOrUpdate", true);
-        intent.putExtra("note", note);
-        startActivityForResult(intent, REQUEST_CODE_UPDATE_NOTE);
+        openNote(note);
     }
 
     @Override
     public void onNoteLongClicked(Note note, int position) {
         noteClickedPosition = position;
-        showPopupWindow();
+        showPopupWindow(note);
     }
 
     @Override
     public void onMoreClicked(Note note, int position) {
         noteClickedPosition = position;
-        showPopupWindow();
+        showPopupWindow(note);
     }
 
     private void getNotes(final int requestCode, final boolean isNoteDeleted) {
@@ -300,11 +298,76 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
         }
     }
 
-    void showPopupWindow() {
+    private void showPopupWindow(Note note) {
         PopupWindow popupWindow;
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.layout_menu_note_item, findViewById(R.id.layout_menu_note_item_llMenu));
         popupWindow = new PopupWindow(view, 320, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         popupWindow.showAsDropDown(Objects.requireNonNull(rvNotes.findViewHolderForAdapterPosition(noteClickedPosition)).itemView.findViewById(R.id.item_container_note_ivMore), 0, 0);
+        view.findViewById(R.id.layout_menu_note_item_clOpenNote).setOnClickListener(v -> {
+            openNote(note);
+            popupWindow.dismiss();
+        });
+        view.findViewById(R.id.layout_menu_note_item_clDelete).setOnClickListener(v -> {
+            showDeleteDialog(note);
+            popupWindow.dismiss();
+        });
+    }
+
+    private void openNote(Note note) {
+        Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
+        intent.putExtra("isReviewOrUpdate", true);
+        intent.putExtra("note", note);
+        startActivityForResult(intent, REQUEST_CODE_UPDATE_NOTE);
+    }
+
+    private void showDeleteDialog(Note note) {
+        if (dialogDeleteNote == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            View view = LayoutInflater.from(this).inflate(
+                    R.layout.layout_delete_note,
+                    findViewById(R.id.layout_delete_note_container)
+            );
+            builder.setView(view);
+            dialogDeleteNote = builder.create();
+            if (dialogDeleteNote.getWindow() != null) {
+                dialogDeleteNote.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+            }
+            view.findViewById(R.id.layout_delete_note_tvConfirmDeleteNote).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    @SuppressLint("StaticFieldLeak")
+                    class DeleteNoteTask extends AsyncTask<Void, Void, Void> {
+
+                        DeleteNoteTask() {
+                            super();
+                        }
+
+                        @Override
+                        protected Void doInBackground(Void... voids) {
+                            NoteDatabase.getNoteDatabase(getApplicationContext()).noteDao()
+                                    .deleteNote(note);
+                            return null;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Void unused) {
+                            super.onPostExecute(unused);
+                        }
+                    }
+                    new DeleteNoteTask().execute();
+                    noteList.remove(noteClickedPosition);
+                    noteAdapter.notifyItemRemoved(noteClickedPosition);
+                    dialogDeleteNote.dismiss();
+                    dialogDeleteNote = null;
+                }
+            });
+
+            view.findViewById(R.id.layout_delete_note_tvCancel).setOnClickListener(v -> {
+                dialogDeleteNote.dismiss();
+                dialogDeleteNote = null;
+            });
+        }
+        dialogDeleteNote.show();
     }
 }

@@ -89,7 +89,7 @@
         android:background="@color/colorAccent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_menu_note_item_clPin"
+        android:id="@+id/layout_menu_note_item_clDelete"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_22sdp"
         android:layout_marginVertical="@dimen/_5sdp"
