@@ -28,8 +28,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.notes.R;
 import com.example.notes.adapters.NoteAdapter;
@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
     }
 
     private void setupRecyclerView() {
-        rvNotes.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        rvNotes.setLayoutManager(new LinearLayoutManager(this));
         noteList = new ArrayList<>();
         noteAdapter = new NoteAdapter(noteList, this);
         rvNotes.setAdapter(noteAdapter);

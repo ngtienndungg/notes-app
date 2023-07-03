@@ -216,7 +216,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         });
 
         llMiscellaneous.findViewById(R.id.layout_miscellaneous_ivColor2).setOnClickListener(v -> {
-            selectedColor = "#FDBE3B";
+            selectedColor = "#F5C504";
             ivColor1.setImageResource(0);
             ivColor2.setImageResource(R.drawable.ic_done);
             ivColor3.setImageResource(0);
@@ -226,7 +226,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         });
 
         llMiscellaneous.findViewById(R.id.layout_miscellaneous_ivColor3).setOnClickListener(v -> {
-            selectedColor = "#FF4842";
+            selectedColor = "#B885EB";
             ivColor1.setImageResource(0);
             ivColor2.setImageResource(0);
             ivColor3.setImageResource(R.drawable.ic_done);
@@ -236,7 +236,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         });
 
         llMiscellaneous.findViewById(R.id.layout_miscellaneous_ivColor4).setOnClickListener(v -> {
-            selectedColor = "#3A52FC";
+            selectedColor = "#7684FF";
             ivColor1.setImageResource(0);
             ivColor2.setImageResource(0);
             ivColor3.setImageResource(0);
@@ -246,7 +246,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         });
 
         llMiscellaneous.findViewById(R.id.layout_miscellaneous_ivColor5).setOnClickListener(v -> {
-            selectedColor = "#000000";
+            selectedColor = "#66BD5B";
             ivColor1.setImageResource(0);
             ivColor2.setImageResource(0);
             ivColor3.setImageResource(0);
