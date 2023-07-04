@@ -312,6 +312,9 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
             showDeleteDialog(note);
             popupWindow.dismiss();
         });
+        view.findViewById(R.id.layout_menu_note_item_clPinNote).setOnClickListener(v -> {
+
+        });
     }
 
     private void openNote(Note note) {

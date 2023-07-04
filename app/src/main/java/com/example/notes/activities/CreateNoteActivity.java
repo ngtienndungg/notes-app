@@ -14,6 +14,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,6 +66,7 @@ public class CreateNoteActivity extends AppCompatActivity {
     private AlertDialog dialogUnsavedNote;
 
     private Note alreadyExistNote;
+    private boolean isChanged = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +138,29 @@ public class CreateNoteActivity extends AppCompatActivity {
         }
 
         setSubtitleIndicatorColor();
+
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                isChanged = true;
+                tvDateTime.setText(new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date()));
+            }
+        };
+
+        etInputNote.addTextChangedListener(textWatcher);
+        etInputTitle.addTextChangedListener(textWatcher);
+        etInputSubtitle.addTextChangedListener(textWatcher);
+        tvNoteUrl.addTextChangedListener(textWatcher);
     }
 
     private void saveNote() {
@@ -271,16 +297,16 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         if (alreadyExistNote != null && alreadyExistNote.getColor() != null && !alreadyExistNote.getColor().trim().isEmpty()) {
             switch (alreadyExistNote.getColor()) {
-                case "#FDBE3B":
+                case "#F5C504":
                     llMiscellaneous.findViewById(R.id.layout_miscellaneous_ivColor2).performClick();
                     break;
-                case "#FF4842":
+                case "#B885EB":
                     llMiscellaneous.findViewById(R.id.layout_miscellaneous_ivColor3).performClick();
                     break;
-                case "#3A52FC":
+                case "#7684FF":
                     llMiscellaneous.findViewById(R.id.layout_miscellaneous_ivColor4).performClick();
                     break;
-                case "#000000":
+                case "#66BD5B":
                     llMiscellaneous.findViewById(R.id.layout_miscellaneous_ivColor5).performClick();
                     break;
             }
@@ -360,6 +386,8 @@ public class CreateNoteActivity extends AppCompatActivity {
                         selectedImagePath = getPathFromUri(selectedImageUri);
                         ivRemoveImage.setVisibility(View.VISIBLE);
                         tvAddImage.setText(getResources().getString(R.string.change_image));
+                        isChanged = true;
+                        tvDateTime.setText(new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date()));
                     } catch (Exception e) {
                         Toast.makeText(this, getResources().getString(R.string.toast_something_wrong), Toast.LENGTH_SHORT).show();
                     }
@@ -476,22 +504,27 @@ public class CreateNoteActivity extends AppCompatActivity {
     }
 
     private void showUnsavedDialog() {
-        if (dialogUnsavedNote == null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(CreateNoteActivity.this);
-            View view = LayoutInflater.from(this).inflate(
-                    R.layout.layout_unsaved_note,
-                    findViewById(R.id.layout_unsaved_note_container));
-            builder.setView(view);
-            dialogUnsavedNote = builder.create();
-            if (dialogUnsavedNote.getWindow() != null) {
-                dialogUnsavedNote.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        if (isChanged) {
+            if (dialogUnsavedNote == null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(CreateNoteActivity.this);
+                View view = LayoutInflater.from(this).inflate(
+                        R.layout.layout_unsaved_note,
+                        findViewById(R.id.layout_unsaved_note_container));
+                builder.setView(view);
+                dialogUnsavedNote = builder.create();
+                if (dialogUnsavedNote.getWindow() != null) {
+                    dialogUnsavedNote.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+                }
+                view.findViewById(R.id.layout_unsaved_note_tvLeave).setOnClickListener(v -> finish());
+                view.findViewById(R.id.layout_unsaved_note_tvCancel).setOnClickListener(v -> {
+                    dialogUnsavedNote.dismiss();
+                    dialogUnsavedNote = null;
+                });
+                dialogUnsavedNote.show();
+                Toast.makeText(this, String.valueOf(isChanged), Toast.LENGTH_SHORT).show();
             }
-            view.findViewById(R.id.layout_unsaved_note_tvLeave).setOnClickListener(v -> finish());
-            view.findViewById(R.id.layout_unsaved_note_tvCancel).setOnClickListener(v -> {
-                dialogUnsavedNote.dismiss();
-                dialogUnsavedNote = null;
-            });
-            dialogUnsavedNote.show();
+        } else {
+            finish();
         }
     }
 
