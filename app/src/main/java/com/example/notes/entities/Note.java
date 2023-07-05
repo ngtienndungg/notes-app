@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.example.notes.converter.DatetimeConverter;
 
 import java.io.Serializable;
 
@@ -17,6 +20,7 @@ public class Note implements Serializable {
     private String title;
 
     @ColumnInfo(name = "date_time")
+    @TypeConverters({DatetimeConverter.class})
     private String dateTime;
 
     @ColumnInfo(name = "subtitle")
