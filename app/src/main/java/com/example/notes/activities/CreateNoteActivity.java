@@ -111,7 +111,7 @@ public class CreateNoteActivity extends AppCompatActivity {
     }
 
     private void init() {
-        tvDateTime.setText(new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date()));
+        tvDateTime.setText(new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss a", Locale.getDefault()).format(new Date()));
         selectedColor = "#333333";
         selectedImagePath = "";
 
@@ -153,7 +153,7 @@ public class CreateNoteActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 isChanged = true;
-                tvDateTime.setText(new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date()));
+                tvDateTime.setText(new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss a", Locale.getDefault()).format(new Date()));
             }
         };
 
@@ -387,7 +387,7 @@ public class CreateNoteActivity extends AppCompatActivity {
                         ivRemoveImage.setVisibility(View.VISIBLE);
                         tvAddImage.setText(getResources().getString(R.string.change_image));
                         isChanged = true;
-                        tvDateTime.setText(new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault()).format(new Date()));
+                        tvDateTime.setText(new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss a", Locale.getDefault()).format(new Date()));
                     } catch (Exception e) {
                         Toast.makeText(this, getResources().getString(R.string.toast_something_wrong), Toast.LENGTH_SHORT).show();
                     }
@@ -521,7 +521,6 @@ public class CreateNoteActivity extends AppCompatActivity {
                     dialogUnsavedNote = null;
                 });
                 dialogUnsavedNote.show();
-                Toast.makeText(this, String.valueOf(isChanged), Toast.LENGTH_SHORT).show();
             }
         } else {
             finish();

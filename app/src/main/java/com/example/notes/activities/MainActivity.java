@@ -205,8 +205,9 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
                 } else if (requestCode == REQUEST_CODE_UPDATE_NOTE) {
                     noteList.remove(noteClickedPosition);
                     if (!isNoteDeleted) {
-                        noteList.add(noteClickedPosition, notes.get(noteClickedPosition));
-                        noteAdapter.notifyItemChanged(noteClickedPosition);
+                        noteAdapter.notifyItemRemoved(noteClickedPosition);
+                        noteList.add(0, notes.get(0));
+                        noteAdapter.notifyItemInserted(0);
                     } else {
                         noteAdapter.notifyItemRemoved(noteClickedPosition);
                     }
@@ -302,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
         PopupWindow popupWindow;
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.layout_menu_note_item, findViewById(R.id.layout_menu_note_item_llMenu));
-        popupWindow = new PopupWindow(view, 320, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        popupWindow = new PopupWindow(view, 350, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         popupWindow.showAsDropDown(Objects.requireNonNull(rvNotes.findViewHolderForAdapterPosition(noteClickedPosition)).itemView.findViewById(R.id.item_container_note_ivMore), 0, 0);
         view.findViewById(R.id.layout_menu_note_item_clOpenNote).setOnClickListener(v -> {
             openNote(note);
