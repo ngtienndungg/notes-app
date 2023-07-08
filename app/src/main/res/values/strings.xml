@@ -13,7 +13,7 @@
     <string name="type_note_here">Type note here..</string>
     <string name="toast_title_empty">Note title can\'t be empty</string>
     <string name="toast_note_empty">Note can\'t be empty</string>
-    <string name="miscellaneous">Miscellaneous</string>
+    <string name="miscellaneous">More options</string>
     <string name="pick_color">Pick color</string>
     <string name="description_image_of_note">Image of note</string>
     <string name="add_image">Add image</string>

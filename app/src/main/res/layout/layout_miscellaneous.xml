@@ -2,27 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/llMiscellaneous"
+    android:id="@+id/layout_miscellaneous_llMiscellaneous"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/background_miscellaneous"
     android:orientation="vertical"
-    app:behavior_peekHeight="@dimen/_40sdp"
+    app:behavior_peekHeight="@dimen/_44sdp"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
-    <TextView
-        android:id="@+id/layout_miscellaneous_tvMiscellaneous"
+    <LinearLayout
+        android:id="@+id/layout_miscellaneous_llOpenMiscellaneous"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
-        android:fontFamily="@font/segoe_ui_bold"
-        android:gravity="center"
-        android:includeFontPadding="false"
-        android:text="@string/miscellaneous"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/_13ssp" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_3sdp"
+            android:layout_marginHorizontal="@dimen/_132sdp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:background="@drawable/pull_action_line" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_38sdp"
+            android:fontFamily="@font/segoe_ui_bold"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/miscellaneous"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_13ssp" />
+
+
+    </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llNoteColor"
+        android:id="@+id/layout_miscellaneous_llNoteColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_10sdp"

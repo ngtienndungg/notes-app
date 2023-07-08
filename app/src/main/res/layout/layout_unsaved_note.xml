@@ -88,5 +88,4 @@
         app:layout_constraintEnd_toStartOf="@id/layout_unsaved_note_tvLeave"
         app:layout_constraintTop_toBottomOf="@id/layout_unsaved_note_tvSaveMessage" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

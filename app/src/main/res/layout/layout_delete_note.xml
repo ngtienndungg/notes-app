@@ -88,5 +88,4 @@
         app:layout_constraintEnd_toStartOf="@id/layout_delete_note_tvConfirmDeleteNote"
         app:layout_constraintTop_toBottomOf="@id/layout_delete_note_tvDeleteMessage" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -76,8 +76,8 @@
         android:background="@color/colorQuickActionBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingVertical="@dimen/_15sdp"
         android:paddingHorizontal="@dimen/_4sdp"
+        android:paddingVertical="@dimen/_15sdp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
@@ -122,6 +122,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/activity_main_llQuickActions"
         app:tint="@color/colorPrimary" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

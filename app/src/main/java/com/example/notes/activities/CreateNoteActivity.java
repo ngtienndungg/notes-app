@@ -92,7 +92,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         etInputSubtitle = findViewById(R.id.activity_create_note_etInputSubtitle);
         tvDateTime = findViewById(R.id.activity_create_note_tvDateTime);
         ivSave = findViewById(R.id.activity_create_note_ivSave);
-        llMiscellaneous = findViewById(R.id.llMiscellaneous);
+        llMiscellaneous = findViewById(R.id.layout_miscellaneous_llMiscellaneous);
         vSubtitleIndicator = findViewById(R.id.activity_create_note_vSubtitleIndicator);
         ivNoteImage = findViewById(R.id.activity_create_note_ivNoteImage);
         tvNoteUrl = findViewById(R.id.activity_create_note_tvNoteUrl);
@@ -115,7 +115,7 @@ public class CreateNoteActivity extends AppCompatActivity {
 
     private void init() {
         tvDateTime.setText(new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss a", Locale.getDefault()).format(new Date()));
-        selectedColor = "#333333";
+        selectedColor = "#141414";
         selectedImagePath = "";
 
         if (getIntent().getBooleanExtra("isReviewOrUpdate", false)) {
@@ -180,7 +180,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         note.setSubtitle(etInputSubtitle.getText().toString());
         note.setNoteContent(etInputNote.getText().toString());
         try {
-            SimpleDateFormat originalFormat = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss a",Locale.getDefault());
+            SimpleDateFormat originalFormat = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss a", Locale.getDefault());
             Date originalDatetime = originalFormat.parse(tvDateTime.getText().toString());
             SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
             assert originalDatetime != null;
@@ -229,7 +229,7 @@ public class CreateNoteActivity extends AppCompatActivity {
     @SuppressLint("InlinedApi")
     private void handleMiscellaneous() {
         final BottomSheetBehavior<LinearLayout> bottomSheetBehavior = BottomSheetBehavior.from(llMiscellaneous);
-        llMiscellaneous.findViewById(R.id.layout_miscellaneous_tvMiscellaneous).setOnClickListener(v -> {
+        llMiscellaneous.findViewById(R.id.layout_miscellaneous_llOpenMiscellaneous).setOnClickListener(v -> {
             if (bottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
                 bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             } else {
@@ -244,7 +244,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         final ImageView ivColor5 = llMiscellaneous.findViewById(R.id.layout_miscellaneous_ivColor5);
 
         llMiscellaneous.findViewById(R.id.layout_miscellaneous_ivColor1).setOnClickListener(v -> {
-            selectedColor = "#333333";
+            selectedColor = "#141414";
             ivColor1.setImageResource(R.drawable.ic_done);
             ivColor2.setImageResource(0);
             ivColor3.setImageResource(0);
@@ -254,7 +254,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         });
 
         llMiscellaneous.findViewById(R.id.layout_miscellaneous_ivColor2).setOnClickListener(v -> {
-            selectedColor = "#F5C504";
+            selectedColor = "#FAC904";
             ivColor1.setImageResource(0);
             ivColor2.setImageResource(R.drawable.ic_done);
             ivColor3.setImageResource(0);
@@ -309,7 +309,7 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         if (alreadyExistNote != null && alreadyExistNote.getColor() != null && !alreadyExistNote.getColor().trim().isEmpty()) {
             switch (alreadyExistNote.getColor()) {
-                case "#F5C504":
+                case "#FAC904":
                     llMiscellaneous.findViewById(R.id.layout_miscellaneous_ivColor2).performClick();
                     break;
                 case "#B885EB":

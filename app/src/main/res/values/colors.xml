@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1A1A1A</color>
-    <color name="colorPrimaryDark">#1A1A1A</color>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FDBE3B</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorSearchIcon">#DBDBDB</color>
     <color name="colorTextHint">#7B7B7B</color>
-    <color name="colorQuickActionBackground">#2F2D2E</color>
+    <color name="colorQuickActionBackground">#212121</color>
     <color name="colorIcon">#A4A4A4</color>
     <color name="colorTextSubtitle">#F9F9F9</color>
-    <color name="colorDefaultNoteColor">#333333</color>
-    <color name="colorMiscellaneousBackground">#1F1F1F</color>
-    <color name="colorNoteColor2">#F5C504</color>
+    <color name="colorDefaultNoteColor">#141414</color>
+    <color name="colorMiscellaneousBackground">#181818</color>
+    <color name="colorNoteColor2">#FAC904</color>
     <color name="colorNoteColor3">#B885EB</color>
     <color name="colorNoteColor4">#7684FF</color>
     <color name="colorNoteColor5">#66BD5B</color>

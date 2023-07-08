@@ -21,6 +21,7 @@
             android:layout_marginEnd="@dimen/_5sdp"
             android:contentDescription="@string/description_more_icon"
             android:src="@drawable/ic_pin"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/item_container_note_ivMore"
             app:layout_constraintTop_toTopOf="parent"

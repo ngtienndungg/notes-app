@@ -30,10 +30,10 @@ import java.util.TimerTask;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
 
-    private List<Note> notes;
     private final NoteListener noteListener;
-    private Timer timer;
     private final List<Note> noteSource;
+    private List<Note> notes;
+    private Timer timer;
 
     public NoteAdapter(List<Note> notes, NoteListener noteListener) {
         this.notes = notes;
@@ -69,6 +69,35 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     @Override
     public int getItemViewType(int position) {
         return position;
+    }
+
+    public void searchNote(final String searchKeyword) {
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void run() {
+                if (searchKeyword.trim().isEmpty()) {
+                    notes = noteSource;
+                } else {
+                    ArrayList<Note> temp = new ArrayList<>();
+                    for (Note note : noteSource) {
+                        if (note.getTitle().toLowerCase().contains(searchKeyword.toLowerCase()) || note.getSubtitle().toLowerCase().contains(searchKeyword.toLowerCase()) || note.getNoteContent().toLowerCase().contains(searchKeyword.toLowerCase())) {
+                            temp.add(note);
+                        }
+                    }
+                    notes = temp;
+                }
+
+                new Handler(Looper.getMainLooper()).post(() -> notifyDataSetChanged());
+            }
+        }, 500);
+    }
+
+    public void cancelTimer() {
+        if (timer != null) {
+            timer.cancel();
+        }
     }
 
     static class NoteViewHolder extends RecyclerView.ViewHolder {
@@ -114,35 +143,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             } else {
                 rivNoteImage.setVisibility(View.GONE);
             }
-        }
-    }
-
-    public void searchNote(final String searchKeyword) {
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void run() {
-                if (searchKeyword.trim().isEmpty()) {
-                    notes = noteSource;
-                } else {
-                    ArrayList<Note> temp = new ArrayList<>();
-                    for (Note note : noteSource) {
-                        if (note.getTitle().toLowerCase().contains(searchKeyword.toLowerCase()) || note.getSubtitle().toLowerCase().contains(searchKeyword.toLowerCase()) || note.getNoteContent().toLowerCase().contains(searchKeyword.toLowerCase())) {
-                            temp.add(note);
-                        }
-                    }
-                    notes = temp;
-                }
-
-                new Handler(Looper.getMainLooper()).post(() -> notifyDataSetChanged());
-            }
-        }, 500);
-    }
-
-    public void cancelTimer() {
-        if (timer != null) {
-            timer.cancel();
         }
     }
 }

@@ -49,20 +49,17 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
     public static final int REQUEST_CODE_SHOW_NOTE = 3;
     public static final int REQUEST_CODE_SELECT_IMAGE = 4;
     public static final int REQUEST_CODE_STORAGE_PERMISSION = 5;
-
+    AlertDialog dialogDeleteNote;
     private ImageView ivAddNoteMain;
     private RecyclerView rvNotes;
-
     private List<Note> noteList;
     private NoteAdapter noteAdapter;
     private EditText etInputSearch;
     private ImageView ivAddImage;
     private ImageView ivAddUrl;
     private ImageView ivAddNote;
-
     private int noteClickedPosition;
     private AlertDialog dialogAddUrl;
-    AlertDialog dialogDeleteNote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
