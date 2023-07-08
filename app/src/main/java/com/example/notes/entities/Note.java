@@ -9,9 +9,10 @@ import androidx.room.TypeConverters;
 import com.example.notes.converter.DatetimeConverter;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity(tableName = "notes")
-public class Note implements Serializable {
+public class Note implements Serializable, Comparable<Note> {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -21,7 +22,7 @@ public class Note implements Serializable {
 
     @ColumnInfo(name = "date_time")
     @TypeConverters({DatetimeConverter.class})
-    private String dateTime;
+    private Date dateTime;
 
     @ColumnInfo(name = "subtitle")
     private String subtitle;
@@ -54,11 +55,11 @@ public class Note implements Serializable {
         this.title = title;
     }
 
-    public String getDateTime() {
+    public Date getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(String dateTime) {
+    public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
     }
 
@@ -106,5 +107,10 @@ public class Note implements Serializable {
     @Override
     public String toString() {
         return title + ": " + dateTime;
+    }
+
+    @Override
+    public int compareTo(Note o) {
+        return (getDateTime().compareTo(o.getDateTime()));
     }
 }

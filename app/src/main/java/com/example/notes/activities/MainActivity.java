@@ -38,6 +38,7 @@ import com.example.notes.entities.Note;
 import com.example.notes.listeners.NoteListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -197,18 +198,22 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
                 super.onPostExecute(notes);
                 if (requestCode == REQUEST_CODE_SHOW_NOTE) {
                     noteList.addAll(notes);
+                    Collections.sort(noteList);
+                    Collections.reverse(noteList);
                     noteAdapter.notifyDataSetChanged();
                 } else if (requestCode == REQUEST_CODE_ADD_NOTE) {
                     noteList.add(0, notes.get(0));
                     noteAdapter.notifyItemInserted(0);
                     rvNotes.smoothScrollToPosition(0);
                 } else if (requestCode == REQUEST_CODE_UPDATE_NOTE) {
-                    noteList.remove(noteClickedPosition);
                     if (!isNoteDeleted) {
-                        noteAdapter.notifyItemRemoved(noteClickedPosition);
-                        noteList.add(0, notes.get(0));
-                        noteAdapter.notifyItemInserted(0);
+                        noteList.clear();
+                        noteList.addAll(notes);
+                        Collections.sort(noteList);
+                        Collections.reverse(noteList);
+                        noteAdapter.notifyDataSetChanged();
                     } else {
+                        noteList.remove(noteClickedPosition);
                         noteAdapter.notifyItemRemoved(noteClickedPosition);
                     }
                 }

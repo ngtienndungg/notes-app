@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +21,10 @@ import com.example.notes.entities.Note;
 import com.example.notes.listeners.NoteListener;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -32,7 +33,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     private List<Note> notes;
     private final NoteListener noteListener;
     private Timer timer;
-    private List<Note> noteSource;
+    private final List<Note> noteSource;
 
     public NoteAdapter(List<Note> notes, NoteListener noteListener) {
         this.notes = notes;
@@ -98,7 +99,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             } else {
                 tvSubtitle.setText(note.getSubtitle());
             }
-            tvDateTime.setText(note.getDateTime());
+            tvDateTime.setText(new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss a", Locale.getDefault()).format(note.getDateTime()));
 
             GradientDrawable gradientDrawable = (GradientDrawable) llNote.getBackground();
             if (note.getColor() != null) {
@@ -110,7 +111,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             if (note.getImagePath() != null) {
                 rivNoteImage.setVisibility(View.VISIBLE);
                 rivNoteImage.setImageBitmap(BitmapFactory.decodeFile(note.getImagePath()));
-                Log.d("CheckNote", note.getImagePath());
             } else {
                 rivNoteImage.setVisibility(View.GONE);
             }

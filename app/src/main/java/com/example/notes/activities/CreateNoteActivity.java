@@ -38,6 +38,7 @@ import com.example.notes.entities.Note;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.io.InputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -104,7 +105,9 @@ public class CreateNoteActivity extends AppCompatActivity {
 
     private void eventHandling() {
         ivBack.setOnClickListener(v -> showUnsavedDialog());
-        ivSave.setOnClickListener(v -> saveNote());
+        ivSave.setOnClickListener(v -> {
+            saveNote();
+        });
         ivRemoveImage.setOnClickListener(v -> removeImage());
         ivRemoveUrl.setOnClickListener(v -> removeUrl());
         handleMiscellaneous();
@@ -176,7 +179,16 @@ public class CreateNoteActivity extends AppCompatActivity {
         note.setTitle(etInputTitle.getText().toString());
         note.setSubtitle(etInputSubtitle.getText().toString());
         note.setNoteContent(etInputNote.getText().toString());
-        note.setDateTime(tvDateTime.getText().toString());
+        try {
+            SimpleDateFormat originalFormat = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss a",Locale.getDefault());
+            Date originalDatetime = originalFormat.parse(tvDateTime.getText().toString());
+            SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
+            assert originalDatetime != null;
+            String targetDatetime = targetFormat.format(originalDatetime);
+            note.setDateTime(targetFormat.parse(targetDatetime));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         note.setColor(selectedColor);
 
         if (!selectedImagePath.equals("")) {
@@ -345,7 +357,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         etInputTitle.setText(alreadyExistNote.getTitle());
         etInputSubtitle.setText(alreadyExistNote.getSubtitle());
         etInputNote.setText(alreadyExistNote.getNoteContent());
-        tvDateTime.setText(alreadyExistNote.getDateTime());
+        tvDateTime.setText(new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss a", Locale.getDefault()).format(alreadyExistNote.getDateTime()));
 
         if (alreadyExistNote.getImagePath() != null && !alreadyExistNote.getImagePath().trim().isEmpty()) {
             ivNoteImage.setImageBitmap(BitmapFactory.decodeFile(alreadyExistNote.getImagePath()));
