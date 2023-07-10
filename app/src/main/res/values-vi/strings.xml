@@ -31,6 +31,7 @@
     <string name="delete_note">Xoá ghi chú</string>
     <string name="delete_confirm_question">Bạn có chắc chắn muốn xoá ghi chú này không?</string>
     <string name="pin">Ghim</string>
+    <string name="unpin">Bỏ ghim</string>
     <string name="open">Mở</string>
     <string name="delete">Xoá</string>
     <string name="change_url">Thay đổi đường dẫn</string>

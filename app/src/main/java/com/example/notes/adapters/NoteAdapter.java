@@ -105,7 +105,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         private TextView tvTitle, tvSubtitle, tvDateTime;
         private LinearLayout llNote;
         private RoundedImageView rivNoteImage;
-        private ImageView ivMore;
+        private ImageView ivMore, ivPin;
 
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -119,6 +119,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             llNote = itemView.findViewById(R.id.item_container_note_llNote);
             rivNoteImage = itemView.findViewById(R.id.item_container_note_rivNoteImage);
             ivMore = itemView.findViewById(R.id.item_container_note_ivMore);
+            ivPin = itemView.findViewById(R.id.item_container_note_ivPin);
         }
 
         private void setNote(Note note) {
@@ -142,6 +143,12 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                 rivNoteImage.setImageBitmap(BitmapFactory.decodeFile(note.getImagePath()));
             } else {
                 rivNoteImage.setVisibility(View.GONE);
+            }
+
+            if (note.getPin()) {
+                ivPin.setVisibility(View.VISIBLE);
+            } else {
+                ivPin.setVisibility(View.GONE);
             }
         }
     }

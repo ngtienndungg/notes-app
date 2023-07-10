@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -68,13 +69,13 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
         // Map view from layout
         viewMapping();
 
-        // Handle set text event
+        // Handle event
         eventHandling();
 
         // Setup recycler view
         setupRecyclerView();
 
-        // Handle click event
+        // Handle show note
         getNotes(REQUEST_CODE_SHOW_NOTE, false);
     }
 
@@ -193,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
             protected void onPostExecute(List<Note> notes) {
                 super.onPostExecute(notes);
                 if (requestCode == REQUEST_CODE_SHOW_NOTE) {
+                    noteList.clear();
                     noteList.addAll(notes);
                     noteAdapter.notifyDataSetChanged();
                 } else if (requestCode == REQUEST_CODE_ADD_NOTE) {
@@ -302,18 +304,53 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
         PopupWindow popupWindow;
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.layout_menu_note_item, findViewById(R.id.layout_menu_note_item_llMenu));
+        View itemView = Objects.requireNonNull(rvNotes.findViewHolderForAdapterPosition(noteClickedPosition)).itemView;
+
+        if (itemView.findViewById(R.id.item_container_note_ivPin).getVisibility() == View.VISIBLE) {
+            TextView tvPin = view.findViewById(R.id.layout_menu_note_item_tvPinNote);
+            tvPin.setText(getResources().getString(R.string.unpin));
+        }
+
         popupWindow = new PopupWindow(view, 350, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         popupWindow.showAsDropDown(Objects.requireNonNull(rvNotes.findViewHolderForAdapterPosition(noteClickedPosition)).itemView.findViewById(R.id.item_container_note_ivMore), 0, 0);
         view.findViewById(R.id.layout_menu_note_item_clOpenNote).setOnClickListener(v -> {
             openNote(note);
             popupWindow.dismiss();
         });
+
         view.findViewById(R.id.layout_menu_note_item_clDelete).setOnClickListener(v -> {
             showDeleteDialog(note);
             popupWindow.dismiss();
         });
-        view.findViewById(R.id.layout_menu_note_item_clPinNote).setOnClickListener(v -> {
 
+        view.findViewById(R.id.layout_menu_note_item_clPinNote).setOnClickListener(v -> {
+            if (itemView.findViewById(R.id.item_container_note_ivPin).getVisibility() == View.VISIBLE) {
+                itemView.findViewById(R.id.item_container_note_ivPin).setVisibility(View.GONE);
+                note.setPin(false);
+            } else {
+                itemView.findViewById(R.id.item_container_note_ivPin).setVisibility(View.VISIBLE);
+                note.setPin(true);
+            }
+            popupWindow.dismiss();
+            @SuppressLint("StaticFieldLeak")
+            class SaveNoteTask extends AsyncTask<Void, Void, Void> {
+                SaveNoteTask() {
+                    super();
+                }
+
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    NoteDatabase.getNoteDatabase(getApplicationContext()).noteDao().insertNote(note);
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void unused) {
+                    super.onPostExecute(unused);
+                    getNotes(REQUEST_CODE_SHOW_NOTE, false);
+                }
+            }
+            new SaveNoteTask().execute();
         });
     }
 

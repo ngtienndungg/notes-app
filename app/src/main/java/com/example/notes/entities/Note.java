@@ -39,6 +39,9 @@ public class Note implements Serializable, Comparable<Note> {
     @ColumnInfo(name = "web_link")
     private String webLink;
 
+    @ColumnInfo(name = "is_pin")
+    private Boolean isPin;
+
     public int getId() {
         return id;
     }
@@ -101,6 +104,14 @@ public class Note implements Serializable, Comparable<Note> {
 
     public void setWebLink(String webLink) {
         this.webLink = webLink;
+    }
+
+    public Boolean getPin() {
+        return isPin;
+    }
+
+    public void setPin(Boolean pin) {
+        isPin = pin;
     }
 
     @NonNull

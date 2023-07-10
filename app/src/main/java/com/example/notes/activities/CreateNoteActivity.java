@@ -176,6 +176,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         }
 
         final Note note = new Note();
+        note.setPin(false);
         note.setTitle(etInputTitle.getText().toString());
         note.setSubtitle(etInputSubtitle.getText().toString());
         note.setNoteContent(etInputNote.getText().toString());
