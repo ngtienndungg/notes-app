@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notes.R;
+import com.example.notes.activities.MainActivity;
 import com.example.notes.entities.Note;
 import com.example.notes.listeners.NoteListener;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -146,6 +147,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             }
 
             if (note.getPin()) {
+                MainActivity.pinNumber++;
                 ivPin.setVisibility(View.VISIBLE);
             } else {
                 ivPin.setVisibility(View.GONE);

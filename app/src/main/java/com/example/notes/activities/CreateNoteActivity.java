@@ -202,6 +202,7 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         if (alreadyExistNote != null) {
             note.setId(alreadyExistNote.getId());
+            note.setPin(true);
         }
 
         @SuppressLint("StaticFieldLeak")

@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
     private ImageView ivAddUrl;
     private ImageView ivAddNote;
     private int noteClickedPosition;
+    public static int pinNumber = 0;
     private AlertDialog dialogAddUrl;
 
     @Override
@@ -193,21 +194,31 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
             @Override
             protected void onPostExecute(List<Note> notes) {
                 super.onPostExecute(notes);
+                int addPosition = pinNumber;
                 if (requestCode == REQUEST_CODE_SHOW_NOTE) {
+                    pinNumber = 0;
                     noteList.clear();
                     noteList.addAll(notes);
                     noteAdapter.notifyDataSetChanged();
                 } else if (requestCode == REQUEST_CODE_ADD_NOTE) {
-                    noteList.add(0, notes.get(0));
-                    noteAdapter.notifyItemInserted(0);
-                    rvNotes.smoothScrollToPosition(0);
+                    noteList.add(addPosition, notes.get(addPosition));
+                    noteAdapter.notifyItemInserted(addPosition);
+                    rvNotes.smoothScrollToPosition(addPosition);
                 } else if (requestCode == REQUEST_CODE_UPDATE_NOTE) {
                     if (!isNoteDeleted) {
-                        noteList.remove(noteClickedPosition);
-                        noteAdapter.notifyItemRemoved(noteClickedPosition);
-                        noteList.add(0, notes.get(0));
-                        noteAdapter.notifyItemInserted(0);
-                        rvNotes.smoothScrollToPosition(0);
+                        if (notes.get(noteClickedPosition).getPin()) {
+                            noteList.remove(noteClickedPosition);
+                            noteAdapter.notifyItemRemoved(noteClickedPosition);
+                            noteList.add(0, notes.get(0));
+                            noteAdapter.notifyItemInserted(0);
+                            rvNotes.smoothScrollToPosition(0);
+                        } else {
+                            noteList.remove(noteClickedPosition);
+                            noteAdapter.notifyItemRemoved(noteClickedPosition);
+                            noteList.add(addPosition, notes.get(addPosition));
+                            noteAdapter.notifyItemInserted(addPosition);
+                            rvNotes.smoothScrollToPosition(0);
+                        }
                     } else {
                         noteList.remove(noteClickedPosition);
                         noteAdapter.notifyItemRemoved(noteClickedPosition);
@@ -327,6 +338,7 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
             if (itemView.findViewById(R.id.item_container_note_ivPin).getVisibility() == View.VISIBLE) {
                 itemView.findViewById(R.id.item_container_note_ivPin).setVisibility(View.GONE);
                 note.setPin(false);
+                pinNumber--;
             } else {
                 itemView.findViewById(R.id.item_container_note_ivPin).setVisibility(View.VISIBLE);
                 note.setPin(true);
