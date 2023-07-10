@@ -194,16 +194,15 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
             @Override
             protected void onPostExecute(List<Note> notes) {
                 super.onPostExecute(notes);
-                int addPosition = pinNumber;
                 if (requestCode == REQUEST_CODE_SHOW_NOTE) {
                     pinNumber = 0;
                     noteList.clear();
                     noteList.addAll(notes);
                     noteAdapter.notifyDataSetChanged();
                 } else if (requestCode == REQUEST_CODE_ADD_NOTE) {
-                    noteList.add(addPosition, notes.get(addPosition));
-                    noteAdapter.notifyItemInserted(addPosition);
-                    rvNotes.smoothScrollToPosition(addPosition);
+                    noteList.add(pinNumber, notes.get(pinNumber));
+                    noteAdapter.notifyItemInserted(pinNumber);
+                    rvNotes.smoothScrollToPosition(pinNumber);
                 } else if (requestCode == REQUEST_CODE_UPDATE_NOTE) {
                     if (!isNoteDeleted) {
                         if (notes.get(noteClickedPosition).getPin()) {
@@ -215,11 +214,15 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
                         } else {
                             noteList.remove(noteClickedPosition);
                             noteAdapter.notifyItemRemoved(noteClickedPosition);
-                            noteList.add(addPosition, notes.get(addPosition));
-                            noteAdapter.notifyItemInserted(addPosition);
+                            noteList.add(pinNumber, notes.get(pinNumber));
+                            noteAdapter.notifyItemInserted(pinNumber);
                             rvNotes.smoothScrollToPosition(0);
                         }
                     } else {
+                        if (noteList.get(noteClickedPosition).getPin()) {
+                            Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_SHORT).show();
+                            pinNumber = noteClickedPosition;
+                        }
                         noteList.remove(noteClickedPosition);
                         noteAdapter.notifyItemRemoved(noteClickedPosition);
                     }
@@ -405,13 +408,12 @@ public class MainActivity extends AppCompatActivity implements NoteListener {
                         @Override
                         protected void onPostExecute(Void unused) {
                             super.onPostExecute(unused);
+                            getNotes(REQUEST_CODE_UPDATE_NOTE, true);
+                            dialogDeleteNote.dismiss();
+                            dialogDeleteNote = null;
                         }
                     }
                     new DeleteNoteTask().execute();
-                    noteList.remove(noteClickedPosition);
-                    noteAdapter.notifyItemRemoved(noteClickedPosition);
-                    dialogDeleteNote.dismiss();
-                    dialogDeleteNote = null;
                 }
             });
 

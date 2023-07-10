@@ -176,7 +176,6 @@ public class CreateNoteActivity extends AppCompatActivity {
         }
 
         final Note note = new Note();
-        note.setPin(false);
         note.setTitle(etInputTitle.getText().toString());
         note.setSubtitle(etInputSubtitle.getText().toString());
         note.setNoteContent(etInputNote.getText().toString());
@@ -202,7 +201,9 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         if (alreadyExistNote != null) {
             note.setId(alreadyExistNote.getId());
-            note.setPin(true);
+            note.setPin(alreadyExistNote.getPin());
+        } else {
+            note.setPin(false);
         }
 
         @SuppressLint("StaticFieldLeak")
