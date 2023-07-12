@@ -24,5 +24,9 @@ Android Local Storage Notes App
   * Read external storage (API 32-)
 - MinSdk: 21
 - TargetSdk: 33
+
+## Reference UI concept:
+- [@Daniél](https://dribbble.com/shots/11123324-Notes-App)
+
 ## Authors
 - [@ngtienndungg](https://github.com/ngtienndungg)
